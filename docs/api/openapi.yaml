@@ -1,0 +1,998 @@
+openapi: 3.1.0
+info:
+  title: Bharat Heritage Atlas REST API
+  version: 0.2.0
+  description: |
+    Public, evidence-linked digital cultural heritage API for Indian historical monuments,
+    epigraphs, and primary archaeological sources. Powered by a multi-tiered Evidence Verification Engine.
+  contact:
+    name: Bharat Heritage Atlas Team
+    url: https://github.com/vr7517/bharat-heritage-atlas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local Development Server
+  - url: https://api.bharatheritageatlas.in/api/v1
+    description: Production API
+
+paths:
+  /sites:
+    get:
+      summary: List heritage sites
+      description: Retrieve a paginated list of verified heritage sites with optional filtering by type, period, dynasty, state, and astronomical year bounds.
+      parameters:
+        - name: search
+          in: query
+          description: Search keywords matching site name, summary, or location.
+          schema:
+            type: string
+        - name: site_type
+          in: query
+          description: Filter by architectural or site typology (e.g., 'Temple Complex').
+          schema:
+            type: string
+        - name: period
+          in: query
+          description: Filter by primary period slug (e.g., 'mauryan-period').
+          schema:
+            type: string
+        - name: dynasty
+          in: query
+          description: Filter by primary dynasty slug (e.g., 'shunga').
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: Filter by modern Indian state (e.g., 'Madhya Pradesh').
+          schema:
+            type: string
+        - name: from_year
+          in: query
+          description: Minimum astronomical start year (e.g., -300 for 300 BCE).
+          schema:
+            type: integer
+        - name: to_year
+          in: query
+          description: Maximum astronomical end year (e.g., 500 for 500 CE).
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          description: Number of items per page (1–100, default 15).
+          schema:
+            type: integer
+            default: 15
+        - name: page
+          in: query
+          description: Page number.
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Paginated list of heritage sites.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSiteResponse'
+
+  /sites/{slug}:
+    get:
+      summary: Get heritage site details
+      description: Retrieve complete details of a heritage site including embedded location, period, dynasty, objects, inscriptions, claims, and evidence graph.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: Unique URL-friendly slug of the heritage site.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Full heritage site representation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleSiteResponse'
+        '404':
+          description: Site not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /objects:
+    get:
+      summary: List heritage objects
+      description: Retrieve a paginated list of physical heritage objects (sculptures, pillars, reliquaries, stupas) with filters.
+      parameters:
+        - name: search
+          in: query
+          description: Keyword search on object name, material, or description.
+          schema:
+            type: string
+        - name: object_type
+          in: query
+          description: Filter by object type (e.g., 'Dhvaja-Stambha', 'Linga', 'Stupa').
+          schema:
+            type: string
+        - name: site
+          in: query
+          description: Filter by parent heritage site slug.
+          schema:
+            type: string
+        - name: period
+          in: query
+          description: Filter by period slug.
+          schema:
+            type: string
+        - name: dynasty
+          in: query
+          description: Filter by dynasty slug.
+          schema:
+            type: string
+        - name: from_year
+          in: query
+          schema:
+            type: integer
+        - name: to_year
+          in: query
+          schema:
+            type: integer
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 15
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: Paginated list of heritage objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedObjectResponse'
+
+  /objects/{slug}:
+    get:
+      summary: Get heritage object details
+      description: Retrieve complete details of a heritage object including parent site, inscriptions, claims, evidence, and primary sources.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Full heritage object representation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleObjectResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /inscriptions:
+    get:
+      summary: List epigraphs and inscriptions
+      description: Retrieve verified inscriptional corpus records with filters for script, language, mentioned rulers, or keyword search in raw facsimiles.
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: script
+          in: query
+          description: Inscriptional script (e.g., 'Brahmi', 'Tamil').
+          schema:
+            type: string
+        - name: language
+          in: query
+          description: Language (e.g., 'Prakrit', 'Tamil', 'Sanskrit').
+          schema:
+            type: string
+        - name: ruler
+          in: query
+          description: Historical ruler mentioned in the epigraph.
+          schema:
+            type: string
+        - name: site
+          in: query
+          description: Parent heritage site slug.
+          schema:
+            type: string
+        - name: object
+          in: query
+          description: Parent heritage object slug.
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: Paginated list of inscriptions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedInscriptionResponse'
+
+  /inscriptions/{slug}:
+    get:
+      summary: Get inscription details
+      description: Retrieve full epigraph details including verbatim text facsimile, translation, interpretation notes, and parent entities.
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Full inscription record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleInscriptionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /sources:
+    get:
+      summary: List bibliographic sources
+      description: Search verified academic monographs, excavation reports, and epigraphical corpora by reliability tier, type, or author.
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: reliability_tier
+          in: query
+          description: Source reliability tier.
+          schema:
+            type: string
+            enum:
+              - TIER_1_PRIMARY_EXCAVATION_EPIGRAPHY
+              - TIER_2_PEER_REVIEWED_ACADEMIC
+              - TIER_3_HISTORIOGRAPHICAL_SURVEY
+        - name: source_type
+          in: query
+          schema:
+            type: string
+            enum:
+              - EXCAVATION_REPORT
+              - EPIGRAPHIC_CORPUS
+              - ACADEMIC_MONOGRAPH
+              - PEER_REVIEWED_JOURNAL
+        - name: author
+          in: query
+          schema:
+            type: string
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            default: 15
+      responses:
+        '200':
+          description: Paginated list of bibliographic sources.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSourceResponse'
+
+  /sources/{id}:
+    get:
+      summary: Get bibliographic source details
+      description: Retrieve source metadata and linked evidentiary contributions.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Source detail.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleSourceResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /claims/{id}:
+    get:
+      summary: Get claim verification graph
+      description: Retrieve an atomized historical claim with its consensus status, parent entity, and supporting or complicating evidence nodes.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Claim verification breakdown.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleClaimResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /evidence/{id}:
+    get:
+      summary: Get evidence record
+      description: Retrieve an evidence node detailing methodology, archaeological context, and primary citations with exact page numbers.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Evidence node detail.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleEvidenceResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /timeline:
+    get:
+      summary: Chronological timeline stream
+      description: Multi-entity chronological stream aggregating heritage sites, objects, and inscriptions sorted by astronomical start year.
+      parameters:
+        - name: from_year
+          in: query
+          description: Earliest astronomical start year.
+          schema:
+            type: integer
+        - name: to_year
+          in: query
+          description: Latest astronomical start year.
+          schema:
+            type: integer
+        - name: entity_type
+          in: query
+          description: Filter entity categories.
+          schema:
+            type: string
+            enum: [all, sites, objects, inscriptions]
+            default: all
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Chronologically ordered event sequence.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineResponse'
+
+  /geo/sites:
+    get:
+      summary: GeoJSON FeatureCollection of heritage sites
+      description: RFC 7946 compliant GeoJSON endpoint designed for direct consumption by web mapping libraries (Leaflet, Mapbox, OpenLayers).
+      parameters:
+        - name: site_type
+          in: query
+          schema:
+            type: string
+        - name: period
+          in: query
+          schema:
+            type: string
+        - name: dynasty
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: from_year
+          in: query
+          schema:
+            type: integer
+        - name: to_year
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Standard GeoJSON FeatureCollection.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoJsonFeatureCollection'
+
+components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Resource not found.
+
+    MetaPagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        per_page:
+          type: integer
+        total:
+          type: integer
+        last_page:
+          type: integer
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        historical_names:
+          type: array
+          items:
+            type: string
+        state:
+          type: string
+        district:
+          type: string
+        taluk_tehsil:
+          type: string
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+            longitude:
+              type: number
+            altitude_meters:
+              type: integer
+            uncertainty_radius_meters:
+              type: integer
+        description:
+          type: string
+
+    Period:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+          properties:
+            start_year:
+              type: integer
+            end_year:
+              type: integer
+            start_era:
+              type: string
+            end_era:
+              type: string
+        description:
+          type: string
+
+    Dynasty:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+          properties:
+            start_year:
+              type: integer
+            end_year:
+              type: integer
+        region:
+          type: string
+        capital:
+          type: string
+        description:
+          type: string
+
+    HeritageSiteListItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        site_type:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+          properties:
+            start_year:
+              type: integer
+            end_year:
+              type: integer
+            is_dating_uncertain:
+              type: boolean
+        protection_status:
+          type: string
+        summary:
+          type: string
+        location:
+          type: object
+        period:
+          type: object
+        dynasty:
+          type: object
+        counts:
+          type: object
+          properties:
+            objects:
+              type: integer
+            inscriptions:
+              type: integer
+            claims:
+              type: integer
+
+    HeritageSiteDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        site_type:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+        protection_status:
+          type: string
+        summary:
+          type: string
+        historical_context:
+          type: string
+        architectural_description:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+        primary_period:
+          $ref: '#/components/schemas/Period'
+        primary_dynasty:
+          $ref: '#/components/schemas/Dynasty'
+        objects:
+          type: array
+          items:
+            type: object
+        inscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inscription'
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/Claim'
+
+    HeritageObjectListItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        object_type:
+          type: string
+        material:
+          type: string
+        dimensions:
+          type: string
+        current_repository:
+          type: string
+        accession_number:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+        site:
+          type: object
+        period:
+          type: object
+        dynasty:
+          type: object
+        counts:
+          type: object
+
+    HeritageObjectDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        object_type:
+          type: string
+        material:
+          type: string
+        dimensions:
+          type: string
+        current_repository:
+          type: string
+        accession_number:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+        description:
+          type: string
+        iconographic_notes:
+          type: string
+        site:
+          type: object
+        location:
+          $ref: '#/components/schemas/Location'
+        period:
+          $ref: '#/components/schemas/Period'
+        dynasty:
+          $ref: '#/components/schemas/Dynasty'
+        inscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inscription'
+        claims:
+          type: array
+          items:
+            $ref: '#/components/schemas/Claim'
+
+    Inscription:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        slug:
+          type: string
+        language:
+          type: string
+        script:
+          type: string
+        dating_statement:
+          type: string
+        chronology:
+          type: object
+        donor:
+          type: string
+        ruler_mentioned:
+          type: string
+        epigraphic_reference:
+          type: string
+        raw_text:
+          type: string
+        translation:
+          type: string
+        interpretation_notes:
+          type: string
+        site:
+          type: object
+        object:
+          type: object
+
+    Source:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        authors:
+          type: string
+        publication_year:
+          type: integer
+        source_type:
+          type: string
+        publisher:
+          type: string
+        journal_or_series:
+          type: string
+        volume_issue:
+          type: string
+        pages:
+          type: string
+        isbn_issn:
+          type: string
+        url:
+          type: string
+        reliability_tier:
+          type: string
+        notes:
+          type: string
+        citation:
+          type: object
+          properties:
+            specific_pages:
+              type: string
+            direct_quotation_or_data:
+              type: string
+            citation_context:
+              type: string
+
+    Evidence:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        evidence_type:
+          type: string
+        classification:
+          type: string
+        description:
+          type: string
+        stratigraphic_context:
+          type: string
+        methodology_applied:
+          type: string
+        uncertainty_notes:
+          type: string
+        relationship:
+          type: object
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+
+    Claim:
+      type: object
+      properties:
+        id:
+          type: integer
+        statement:
+          type: string
+        claim_type:
+          type: string
+        consensus_status:
+          type: string
+        summary_justification:
+          type: string
+        entity:
+          type: object
+        evidence:
+          type: array
+          items:
+            $ref: '#/components/schemas/Evidence'
+
+    TimelineEvent:
+      type: object
+      properties:
+        entity_type:
+          type: string
+          enum: [HeritageSite, HeritageObject, Inscription]
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        category:
+          type: string
+        chronology:
+          type: object
+          properties:
+            start_year:
+              type: integer
+            end_year:
+              type: integer
+            dating_statement:
+              type: string
+            is_dating_uncertain:
+              type: boolean
+        summary:
+          type: string
+        api_url:
+          type: string
+
+    GeoJsonFeatureCollection:
+      type: object
+      properties:
+        type:
+          type: string
+          example: FeatureCollection
+        features:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: Feature
+              id:
+                type: integer
+              geometry:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: Point
+                  coordinates:
+                    type: array
+                    items:
+                      type: number
+                    example: [77.7394, 23.4794]
+              properties:
+                type: object
+
+    PaginatedSiteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HeritageSiteListItem'
+        meta:
+          $ref: '#/components/schemas/MetaPagination'
+
+    SingleSiteResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/HeritageSiteDetail'
+
+    PaginatedObjectResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HeritageObjectListItem'
+        meta:
+          $ref: '#/components/schemas/MetaPagination'
+
+    SingleObjectResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/HeritageObjectDetail'
+
+    PaginatedInscriptionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inscription'
+        meta:
+          $ref: '#/components/schemas/MetaPagination'
+
+    SingleInscriptionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Inscription'
+
+    PaginatedSourceResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Source'
+        meta:
+          $ref: '#/components/schemas/MetaPagination'
+
+    SingleSourceResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Source'
+
+    SingleClaimResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Claim'
+
+    SingleEvidenceResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Evidence'
+
+    TimelineResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimelineEvent'
+        meta:
+          type: object
+          properties:
+            count:
+              type: integer
+            total_matching:
+              type: integer
+            limit:
+              type: integer
+            range:
+              type: object
+              properties:
+                earliest_year:
+                  type: integer
+                latest_year:
+                  type: integer
