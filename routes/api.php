@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\V1\GeoController;
 use App\Http\Controllers\Api\V1\InscriptionController;
 use App\Http\Controllers\Api\V1\ObjectController;
 use App\Http\Controllers\Api\V1\SiteController;
 use App\Http\Controllers\Api\V1\SourceController;
+use App\Http\Controllers\Api\V1\TimelineController;
 use App\Http\Controllers\Api\V1\VerificationController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +29,10 @@ Route::prefix('v1')->group(function () {
     // Evidence Verification Engine
     Route::get('/claims/{id}', [VerificationController::class, 'showClaim'])->name('api.v1.claims.show');
     Route::get('/evidence/{id}', [VerificationController::class, 'showEvidence'])->name('api.v1.evidence.show');
+
+    // Chronological Timeline Stream
+    Route::get('/timeline', [TimelineController::class, 'index'])->name('api.v1.timeline.index');
+
+    // Geospatial GeoJSON Map Endpoints
+    Route::get('/geo/sites', [GeoController::class, 'sites'])->name('api.v1.geo.sites');
 });
