@@ -41,6 +41,11 @@ class Inscription extends Model
         return $this->belongsTo(HeritageSite::class);
     }
 
+    public function site(): BelongsTo
+    {
+        return $this->heritageSite();
+    }
+
     public function object(): BelongsTo
     {
         return $this->belongsTo(HeritageObject::class, 'object_id');
