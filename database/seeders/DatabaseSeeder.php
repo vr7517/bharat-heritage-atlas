@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GudimallamSeeder::class,
             HeliodorusPillarSeeder::class,
+            SanchiSeeder::class,
         ]);
     }
 }
