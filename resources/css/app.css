@@ -1,9 +1,43 @@
 @import 'tailwindcss';
 
+@source '../views/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-serif: 'Georgia', 'Cambria', 'Times New Roman', serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+    --color-heritage-terracotta: #c2410c;
+    --color-heritage-terracotta-dark: #9a3412;
+    --color-heritage-sandstone: #d97706;
+    --color-heritage-sandstone-dark: #b45309;
+    --color-heritage-gold: #f59e0b;
+    --color-heritage-parchment: #fdfbf7;
+    --color-heritage-parchment-subtle: #f5f2e9;
+    --color-heritage-granite: #1c1917;
+    --color-heritage-granite-card: #292524;
+}
+
+/* Custom Heritage Utility Classes */
+.font-heritage-serif {
+    font-family: var(--font-serif);
+}
+
+.bg-parchment {
+    background-color: #faf8f5;
+}
+
+.bg-granite-dark {
+    background-color: #141210;
+}
+
+.text-terracotta {
+    color: #c2410c;
+}
+
+.border-terracotta {
+    border-color: #c2410c;
 }
