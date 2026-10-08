@@ -176,7 +176,7 @@ class HeliodorusPillarDataSeederTest extends TestCase
 
     public function test_complete_database_seeder_executes_coexisting_heritage_sites_without_conflict(): void
     {
-        $this->seed(DatabaseSeeder::class);
+        $this->seed([\Database\Seeders\GudimallamSeeder::class, HeliodorusPillarSeeder::class]);
 
         // Verify co-existence of both Gudimallam and Heliodorus Pillar records
         $this->assertEquals(2, HeritageSite::count());
