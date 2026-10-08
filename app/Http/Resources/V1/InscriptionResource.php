@@ -31,6 +31,21 @@ class InscriptionResource extends JsonResource
             'raw_text' => $this->raw_text,
             'translation' => $this->translation,
             'interpretation_notes' => $this->interpretation_notes,
+            'site' => $this->whenLoaded('heritageSite', function () {
+                return [
+                    'id' => $this->heritageSite->id,
+                    'name' => $this->heritageSite->name,
+                    'slug' => $this->heritageSite->slug,
+                ];
+            }),
+            'object' => $this->whenLoaded('object', function () {
+                return [
+                    'id' => $this->object->id,
+                    'name' => $this->object->name,
+                    'slug' => $this->object->slug,
+                ];
+            }),
+            'claims' => ClaimResource::collection($this->whenLoaded('claims')),
         ];
     }
 }

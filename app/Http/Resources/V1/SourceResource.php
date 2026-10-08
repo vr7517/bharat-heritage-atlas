@@ -35,6 +35,8 @@ class SourceResource extends JsonResource
                     'citation_context' => $this->pivot->citation_context,
                 ];
             }),
+            'evidence_count' => $this->evidence_count ?? $this->whenLoaded('evidence', fn () => $this->evidence->count()),
+            'evidence' => EvidenceResource::collection($this->whenLoaded('evidence')),
         ];
     }
 }
