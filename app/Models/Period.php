@@ -31,6 +31,11 @@ class Period extends Model
         return $this->hasMany(HeritageSite::class, 'primary_period_id');
     }
 
+    public function sites(): HasMany
+    {
+        return $this->heritageSites();
+    }
+
     public function objects(): HasMany
     {
         return $this->hasMany(HeritageObject::class, 'period_id');

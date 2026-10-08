@@ -36,6 +36,11 @@ class Location extends Model
         return $this->hasMany(HeritageSite::class);
     }
 
+    public function sites(): HasMany
+    {
+        return $this->heritageSites();
+    }
+
     public function objects(): HasMany
     {
         return $this->hasMany(HeritageObject::class);
