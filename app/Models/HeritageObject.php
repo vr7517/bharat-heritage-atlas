@@ -47,6 +47,11 @@ class HeritageObject extends Model
         return $this->belongsTo(HeritageSite::class);
     }
 
+    public function site(): BelongsTo
+    {
+        return $this->heritageSite();
+    }
+
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class);
