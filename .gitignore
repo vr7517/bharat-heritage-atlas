@@ -1,0 +1,54 @@
+# Laravel & Composer
+/vendor/
+composer.phar
+composer.lock.backup
+
+# Environment & Credentials (CRITICAL - NEVER COMMIT SECRETS)
+.env
+.env.backup
+.env.*
+!.env.example
+
+# Node & Frontend
+/node_modules/
+/public/build/
+/public/hot/
+/public/storage
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Application Storage & Caches
+/storage/*.key
+/storage/app/public/
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# SQLite databases
+/database/*.sqlite
+/database/*.sqlite-journal
+
+# Testing & Coverage
+.phpunit.result.cache
+.phpunit.cache/
+/coverage/
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.fleet/
