@@ -5,7 +5,9 @@ use App\Http\Controllers\Web\InscriptionController;
 use App\Http\Controllers\Web\MapController;
 use App\Http\Controllers\Web\ObjectController;
 use App\Http\Controllers\Web\SiteController;
+use App\Http\Controllers\Web\SourceController;
 use App\Http\Controllers\Web\TimelineController;
+use App\Http\Controllers\Web\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,3 +22,9 @@ Route::get('/objects/{slug}', [ObjectController::class, 'show'])->name('objects.
 
 Route::get('/inscriptions', [InscriptionController::class, 'index'])->name('inscriptions.index');
 Route::get('/inscriptions/{slug}', [InscriptionController::class, 'show'])->name('inscriptions.show');
+
+Route::get('/verification', [VerificationController::class, 'index'])->name('verification.index');
+Route::get('/verification/claims/{id}', [VerificationController::class, 'show'])->name('verification.show');
+
+Route::get('/sources', [SourceController::class, 'index'])->name('sources.index');
+Route::get('/sources/{id}', [SourceController::class, 'show'])->name('sources.show');

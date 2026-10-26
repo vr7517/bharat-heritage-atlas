@@ -256,15 +256,20 @@
             @foreach($site->claims as $claim)
             <div class="bg-white rounded-xl border border-stone-200 p-5 shadow-2xs space-y-3">
                 <div class="flex items-center justify-between text-xs">
-                    <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] {{ $claim->consensus_status === 'SETTLED_CONSENSUS' ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' : 'bg-amber-100 text-amber-900 border border-amber-200' }}">
-                        {{ $claim->consensus_status }}
+                    <span class="px-2 py-0.5 rounded font-mono font-bold text-[10px] {{ in_array($claim->consensus_status, ['SETTLED_CONSENSUS', 'STRONG_CONSENSUS']) ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' : 'bg-amber-100 text-amber-900 border border-amber-200' }}">
+                        {{ str_replace('_', ' ', $claim->consensus_status) }}
                     </span>
                     <span class="text-stone-500 font-mono text-[11px]">Claim #{{ $claim->id }}</span>
                 </div>
-                <h4 class="font-bold text-stone-900 text-sm">{{ $claim->claim_text }}</h4>
-                @if($claim->consensus_notes)
-                <p class="text-xs text-stone-600 italic">{{ $claim->consensus_notes }}</p>
+                <h4 class="font-bold text-stone-900 text-sm">“{{ $claim->statement }}”</h4>
+                @if($claim->summary_justification)
+                <p class="text-xs text-stone-600 italic">{{ $claim->summary_justification }}</p>
                 @endif
+                <div class="pt-2 border-t border-stone-100 text-right">
+                    <a href="{{ route('verification.show', $claim->id) }}" class="text-xs font-bold text-orange-800 hover:text-orange-950 transition">
+                        Inspect Evidence Graph & Breakdown &rarr;
+                    </a>
+                </div>
             </div>
             @endforeach
         </div>
