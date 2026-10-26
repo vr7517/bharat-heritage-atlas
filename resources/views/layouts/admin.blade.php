@@ -46,7 +46,7 @@
                     <a href="{{ route('verification.index') }}" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition">
                         🔍 Evidence Engine
                     </a>
-                    <a href="{{ route('sources.index') }}" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition">
+                    <a href="{{ route('admin.sources.index') }}" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/sources*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
                         📚 Sources
                     </a>
                 </nav>

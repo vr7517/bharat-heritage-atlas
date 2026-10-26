@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dynasty;
+use App\Models\Evidence;
 use App\Models\HeritageSite;
 use App\Models\Location;
 use App\Models\Period;
+use App\Models\Source;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -34,7 +36,7 @@ class SiteController extends Controller
     public function index(Request $request): View
     {
         $query = HeritageSite::query()
-            ->with(['location', 'primaryPeriod', 'primaryDynasty'])
+            ->with(['location', 'primaryPeriod', 'primaryDynasty', 'media'])
             ->withCount(['objects', 'inscriptions', 'claims']);
 
         if ($search = $request->query('search')) {
@@ -118,6 +120,12 @@ class SiteController extends Controller
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'altitude_meters' => ['nullable', 'integer'],
+
+            // Media upload
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_caption' => ['nullable', 'string', 'max:500'],
+            'cover_credit' => ['nullable', 'string', 'max:255'],
+            'cover_license' => ['nullable', 'string', 'max:100'],
         ]);
 
         // Auto-generate slug if left empty
@@ -166,6 +174,21 @@ class SiteController extends Controller
             'location_id' => $locationId,
         ]);
 
+        // Handle Cover Photo upload
+        if ($request->hasFile('cover_image')) {
+            $coverPath = $request->file('cover_image')->store('media/sites', 'public');
+            $site->media()->create([
+                'file_path' => $coverPath,
+                'caption' => $request->input('cover_caption', "Primary photograph of {$site->name}"),
+                'alt_text' => $site->name,
+                'media_type' => 'PHOTOGRAPH',
+                'license' => $request->input('cover_license', 'Creative Commons (CC BY-SA 4.0)'),
+                'source_credit' => $request->input('cover_credit', 'Curatorial Heritage Archive'),
+                'is_cover' => true,
+                'display_order' => 0,
+            ]);
+        }
+
         return redirect()->route('admin.sites.index')
             ->with('success', "Heritage site '{$site->name}' created successfully.");
     }
@@ -175,13 +198,15 @@ class SiteController extends Controller
      */
     public function edit(int $id): View
     {
-        $site = HeritageSite::with(['location', 'primaryPeriod', 'primaryDynasty'])->findOrFail($id);
+        $site = HeritageSite::with(['location', 'primaryPeriod', 'primaryDynasty', 'media', 'claims.evidence.sources'])->findOrFail($id);
         $periods = Period::orderBy('start_year')->get();
         $dynasties = Dynasty::orderBy('name')->get();
         $locations = Location::orderBy('name')->get();
         $commonSiteTypes = $this->commonSiteTypes;
+        $sources = Source::orderBy('title')->get();
+        $allEvidence = Evidence::orderBy('title')->get();
 
-        return view('admin.sites.edit', compact('site', 'periods', 'dynasties', 'locations', 'commonSiteTypes'));
+        return view('admin.sites.edit', compact('site', 'periods', 'dynasties', 'locations', 'commonSiteTypes', 'sources', 'allEvidence'));
     }
 
     /**
@@ -215,6 +240,12 @@ class SiteController extends Controller
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'altitude_meters' => ['nullable', 'integer'],
+
+            // Media upload
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_caption' => ['nullable', 'string', 'max:500'],
+            'cover_credit' => ['nullable', 'string', 'max:255'],
+            'cover_license' => ['nullable', 'string', 'max:100'],
         ]);
 
         // If site already has a location and location attributes are edited, update it
@@ -247,6 +278,22 @@ class SiteController extends Controller
             'primary_period_id' => $validated['primary_period_id'] ?? null,
             'primary_dynasty_id' => $validated['primary_dynasty_id'] ?? null,
         ]);
+
+        // Handle Cover Photo replacement
+        if ($request->hasFile('cover_image')) {
+            $coverPath = $request->file('cover_image')->store('media/sites', 'public');
+            $site->media()->update(['is_cover' => false]);
+            $site->media()->create([
+                'file_path' => $coverPath,
+                'caption' => $request->input('cover_caption', "Primary photograph of {$site->name}"),
+                'alt_text' => $site->name,
+                'media_type' => 'PHOTOGRAPH',
+                'license' => $request->input('cover_license', 'Creative Commons (CC BY-SA 4.0)'),
+                'source_credit' => $request->input('cover_credit', 'Curatorial Heritage Archive'),
+                'is_cover' => true,
+                'display_order' => 0,
+            ]);
+        }
 
         return redirect()->route('admin.sites.index')
             ->with('success', "Heritage site '{$site->name}' updated successfully.");

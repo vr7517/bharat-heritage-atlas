@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\ClaimController as AdminClaimController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\MediaController as AdminMediaController;
 use App\Http\Controllers\Admin\SiteController as AdminSiteController;
+use App\Http\Controllers\Admin\SourceController as AdminSourceController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\InscriptionController;
 use App\Http\Controllers\Web\MapController;
@@ -55,5 +58,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Heritage Site Management (CRUD & Publishing)
         Route::resource('sites', AdminSiteController::class);
         Route::post('sites/{id}/toggle-publish', [AdminSiteController::class, 'togglePublish'])->name('sites.toggle-publish');
+
+        // Media & Visual Archive Pipeline
+        Route::post('media/upload', [AdminMediaController::class, 'store'])->name('media.upload');
+        Route::post('media/{id}/cover', [AdminMediaController::class, 'setCover'])->name('media.set-cover');
+        Route::delete('media/{id}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
+
+        // Bibliographic Source Management (CRUD)
+        Route::resource('sources', AdminSourceController::class);
+
+        // Claims & Evidence Network Engine
+        Route::post('claims', [AdminClaimController::class, 'store'])->name('claims.store');
+        Route::put('claims/{id}', [AdminClaimController::class, 'update'])->name('claims.update');
+        Route::delete('claims/{id}', [AdminClaimController::class, 'destroy'])->name('claims.destroy');
+        Route::post('claims/{id}/evidence', [AdminClaimController::class, 'attachEvidence'])->name('claims.evidence.attach');
+        Route::delete('claims/{claimId}/evidence/{evidenceId}', [AdminClaimController::class, 'detachEvidence'])->name('claims.evidence.detach');
     });
 });

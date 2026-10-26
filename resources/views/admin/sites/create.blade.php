@@ -26,7 +26,7 @@
     </div>
 
     <!-- Creation Form -->
-    <form action="{{ route('admin.sites.store') }}" method="POST" class="space-y-8">
+    <form action="{{ route('admin.sites.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
         @csrf
 
         <!-- 1. Identity & Classification -->
@@ -275,10 +275,57 @@
             </div>
         </div>
 
-        <!-- 5. Publishing Status -->
+        <!-- 5. Visual Archive & Cover Photograph -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-6">
+            <div class="border-b border-stone-100 pb-3">
+                <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                    <span>📸 5. Primary Cover Photograph & Visual Asset</span>
+                </h2>
+                <p class="text-xs text-stone-500 mt-0.5">Upload initial high-resolution monument photography for the Atlas hero view.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
+                <div class="sm:col-span-2">
+                    <label for="cover_image" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Cover Image File <span class="text-stone-400 font-normal font-sans">(JPEG, PNG, WebP up to 10MB)</span>
+                    </label>
+                    <input type="file" id="cover_image" name="cover_image" accept="image/*"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs text-stone-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-stone-50/50 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer" />
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="cover_caption" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Image Caption / Description
+                    </label>
+                    <input type="text" id="cover_caption" name="cover_caption" value="{{ old('cover_caption') }}"
+                        placeholder="e.g. South Torana gateway elevation with Ashokan lions capital"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="cover_credit" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Source / Institutional Credit
+                    </label>
+                    <input type="text" id="cover_credit" name="cover_credit" value="{{ old('cover_credit', 'Archaeological Survey of India') }}"
+                        placeholder="e.g. Archaeological Survey of India / Photo Archive"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="cover_license" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Copyright / License
+                    </label>
+                    <input type="text" id="cover_license" name="cover_license" value="{{ old('cover_license', 'Creative Commons (CC BY-SA 4.0)') }}"
+                        placeholder="e.g. Creative Commons (CC BY-SA 4.0) or Public Domain"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Publishing Status -->
         <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-4">
             <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
-                <span>🛡️ 5. Publishing & Visibility Control</span>
+                <span>🛡️ 6. Publishing & Visibility Control</span>
             </h2>
 
             <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200/60 flex items-start gap-3">
