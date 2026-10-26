@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\SiteController as AdminSiteController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\InscriptionController;
 use App\Http\Controllers\Web\MapController;
@@ -50,5 +51,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
+
+        // Heritage Site Management (CRUD & Publishing)
+        Route::resource('sites', AdminSiteController::class);
+        Route::post('sites/{id}/toggle-publish', [AdminSiteController::class, 'togglePublish'])->name('sites.toggle-publish');
     });
 });
