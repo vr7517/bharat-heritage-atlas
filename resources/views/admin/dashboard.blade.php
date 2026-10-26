@@ -35,6 +35,9 @@
             <a href="{{ route('admin.datasets.create') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 transition">
                 <span>📊 Add Dataset</span>
             </a>
+            <a href="{{ route('admin.exports.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 transition">
+                <span>📦 Export Center</span>
+            </a>
             <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition">
                 <span>Public Atlas</span>
                 <span>&nearr;</span>

@@ -5,17 +5,21 @@ use App\Http\Controllers\Admin\ClaimController as AdminClaimController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DatasetController as AdminDatasetController;
 use App\Http\Controllers\Admin\DynastyController as AdminDynastyController;
+use App\Http\Controllers\Admin\ExportController as AdminExportController;
 use App\Http\Controllers\Admin\InscriptionController as AdminInscriptionController;
 use App\Http\Controllers\Admin\MediaController as AdminMediaController;
 use App\Http\Controllers\Admin\ObjectController as AdminObjectController;
 use App\Http\Controllers\Admin\PeriodController as AdminPeriodController;
 use App\Http\Controllers\Admin\SiteController as AdminSiteController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
+use App\Http\Controllers\Api\V1\ExportController;
 use App\Http\Controllers\Web\DatasetController;
+use App\Http\Controllers\Web\DeveloperController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\InscriptionController;
 use App\Http\Controllers\Web\MapController;
 use App\Http\Controllers\Web\ObjectController;
+use App\Http\Controllers\Web\ResearchToolsController;
 use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\SiteController;
 use App\Http\Controllers\Web\SourceController;
@@ -51,6 +55,13 @@ Route::get('/verification/claims/{id}', [VerificationController::class, 'show'])
 
 Route::get('/sources', [SourceController::class, 'index'])->name('sources.index');
 Route::get('/sources/{id}', [SourceController::class, 'show'])->name('sources.show');
+Route::get('/sources/export/bibtex', [ExportController::class, 'bibtex'])->name('sources.export.bibtex');
+
+// Academic Research Workbench & Tools
+Route::get('/research-tools', [ResearchToolsController::class, 'index'])->name('research.index');
+
+// Public REST API & Developer Hub
+Route::get('/developers', [DeveloperController::class, 'index'])->name('developers.index');
 
 /*
 |--------------------------------------------------------------------------
@@ -104,5 +115,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('claims/{id}', [AdminClaimController::class, 'destroy'])->name('claims.destroy');
         Route::post('claims/{id}/evidence', [AdminClaimController::class, 'attachEvidence'])->name('claims.evidence.attach');
         Route::delete('claims/{claimId}/evidence/{evidenceId}', [AdminClaimController::class, 'detachEvidence'])->name('claims.evidence.detach');
+
+        // Admin Data Export Center
+        Route::get('exports', [AdminExportController::class, 'index'])->name('exports.index');
+        Route::get('exports/{entity}/{format}', [AdminExportController::class, 'download'])->name('exports.download');
     });
 });
