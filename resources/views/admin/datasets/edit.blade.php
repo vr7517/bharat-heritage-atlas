@@ -1,0 +1,263 @@
+@extends('layouts.admin')
+
+@section('title', 'Edit ' . $dataset->name)
+
+@section('content')
+<div class="space-y-6 max-w-4xl mx-auto">
+
+    <!-- Top Navigation & Heading -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <nav class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+                <a href="{{ route('admin.dashboard') }}" class="hover:text-stone-900">Dashboard</a>
+                <span>/</span>
+                <a href="{{ route('admin.datasets.index') }}" class="hover:text-stone-900">Datasets</a>
+                <span>/</span>
+                <span class="text-stone-800 font-semibold truncate">{{ Str::limit($dataset->name, 30) }}</span>
+            </nav>
+            <h1 class="text-2xl font-bold tracking-tight text-stone-900">
+                Edit Open Heritage Dataset
+            </h1>
+        </div>
+
+        <div class="flex items-center gap-2">
+            @if($dataset->is_published)
+            <a href="{{ route('datasets.show', $dataset->slug) }}" target="_blank"
+                class="px-3.5 py-1.5 rounded-xl border border-emerald-300 text-xs font-semibold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition flex items-center gap-1">
+                <span>View Public</span>
+                <span>&nearr;</span>
+            </a>
+            @endif
+            <a href="{{ route('admin.datasets.index') }}" class="px-3.5 py-1.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition">
+                &larr; Back to Datasets
+            </a>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form action="{{ route('admin.datasets.update', $dataset->id) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        @csrf
+        @method('PUT')
+
+        <!-- 1. Nomenclature & Typology -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-6">
+            <div class="border-b border-stone-100 pb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                        <span>📊 1. Dataset Nomenclature & Typology</span>
+                    </h2>
+                    <p class="text-xs text-stone-500 mt-0.5">Formal dataset title, file specification, and version designation.</p>
+                </div>
+                <span class="text-xs font-mono text-stone-400">ID: #{{ $dataset->id }}</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
+                <div class="sm:col-span-2">
+                    <label for="name" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Dataset Title <span class="text-rose-600">*</span>
+                    </label>
+                    <input type="text" id="name" name="name" required value="{{ old('name', $dataset->name) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="slug" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        URL Slug <span class="text-rose-600">*</span>
+                    </label>
+                    <input type="text" id="slug" name="slug" required value="{{ old('slug', $dataset->slug) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs font-mono text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-stone-50/50" />
+                </div>
+
+                <div>
+                    <label for="dataset_type" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Data Format / Typology <span class="text-rose-600">*</span>
+                    </label>
+                    <select id="dataset_type" name="dataset_type" required
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white">
+                        @foreach($datasetTypes as $val => $label)
+                        <option value="{{ $val }}" @selected(old('dataset_type', $dataset->dataset_type) === $val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label for="version" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Release Version <span class="text-rose-600">*</span>
+                    </label>
+                    <input type="text" id="version" name="version" required value="{{ old('version', $dataset->version) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm font-mono text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="record_count" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Estimated Record Count
+                    </label>
+                    <input type="number" id="record_count" name="record_count" value="{{ old('record_count', $dataset->record_count) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm font-mono text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="release_date" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Official Release / Publication Date
+                    </label>
+                    <input type="date" id="release_date" name="release_date" value="{{ old('release_date', $dataset->release_date?->format('Y-m-d')) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm font-mono text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Provenance & License -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-6">
+            <div class="border-b border-stone-100 pb-3">
+                <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                    <span>🏛️ 2. Institutional Provenance & License</span>
+                </h2>
+                <p class="text-xs text-stone-500 mt-0.5">Originating organization, academic repository URL, and licensing terms.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
+                <div>
+                    <label for="source_organization" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Originating Organization / Laboratory <span class="text-rose-600">*</span>
+                    </label>
+                    <input type="text" id="source_organization" name="source_organization" required value="{{ old('source_organization', $dataset->source_organization) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div>
+                    <label for="source_url" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Institutional Source URL
+                    </label>
+                    <input type="url" id="source_url" name="source_url" value="{{ old('source_url', $dataset->source_url) }}"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white" />
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="license" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Open Data License <span class="text-rose-600">*</span>
+                    </label>
+                    <select id="license" name="license" required
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white">
+                        @foreach($licenses as $val => $label)
+                        <option value="{{ $val }}" @selected(old('license', $dataset->license) === $val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Documentation & Descriptions -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-6">
+            <div class="border-b border-stone-100 pb-3">
+                <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                    <span>📜 3. Scope & Technical Documentation</span>
+                </h2>
+                <p class="text-xs text-stone-500 mt-0.5">Abstract, field methodologies, coordinate reference systems (CRS), and schema notes.</p>
+            </div>
+
+            <div class="space-y-5 text-xs">
+                <div>
+                    <label for="description" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Executive Dataset Abstract
+                    </label>
+                    <textarea id="description" name="description" rows="3"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-sm text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white leading-relaxed">{{ old('description', $dataset->description) }}</textarea>
+                </div>
+
+                <div>
+                    <label for="notes" class="block font-bold text-stone-700 uppercase tracking-wider">
+                        Technical Notes & Schema Specification
+                    </label>
+                    <textarea id="notes" name="notes" rows="4"
+                        class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs font-mono text-stone-900 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-white leading-relaxed">{{ old('notes', $dataset->notes) }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Dataset Asset File Management -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-6">
+            <div class="border-b border-stone-100 pb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                        <span>💾 4. Dataset Asset File Attachment</span>
+                    </h2>
+                    <p class="text-xs text-stone-500 mt-0.5">Binary or structured text file asset hosted for public research downloads.</p>
+                </div>
+                @if($dataset->file_path)
+                <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-semibold">Active File Attached</span>
+                @else
+                <span class="text-xs px-2.5 py-1 rounded-full bg-stone-100 text-stone-600 font-semibold">No File Uploaded</span>
+                @endif
+            </div>
+
+            @if($dataset->file_path)
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-stone-50 border border-stone-200 text-xs">
+                <div class="space-y-1">
+                    <div class="font-bold text-stone-900 font-mono text-sm flex items-center gap-2">
+                        <span>📄</span>
+                        <span>{{ $dataset->file_name ?: 'Uploaded Dataset' }}</span>
+                    </div>
+                    <p class="text-stone-500">
+                        Size: <strong class="text-stone-800">{{ $dataset->formatted_file_size }}</strong> •
+                        Type: <span class="font-mono">{{ $dataset->file_mime_type }}</span>
+                    </p>
+                </div>
+
+                <a href="{{ route('datasets.download', $dataset->slug) }}"
+                    class="px-4 py-2 rounded-xl text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 border border-amber-300 transition text-center">
+                    Download Current Asset &darr;
+                </a>
+            </div>
+            @endif
+
+            <div>
+                <label for="dataset_file" class="block font-bold text-stone-700 uppercase tracking-wider">
+                    {{ $dataset->file_path ? 'Replace Dataset File' : 'Upload Dataset File' }} <span class="text-stone-400 font-normal font-sans">(GeoJSON, CSV, JSON, ZIP, PDF up to 50MB)</span>
+                </label>
+                <input type="file" id="dataset_file" name="dataset_file"
+                    class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs text-stone-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-stone-50/50 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer" />
+            </div>
+        </div>
+
+        <!-- 5. Publishing Status & Featured Promotion -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-2xs space-y-4">
+            <h2 class="text-sm font-bold text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                <span>🛡️ 5. Publishing & Promotion Controls</span>
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200/60 flex items-start gap-3">
+                    <input type="checkbox" id="is_published" name="is_published" value="1" @checked(old('is_published', $dataset->is_published))
+                        class="mt-0.5 w-5 h-5 rounded border-stone-300 text-orange-800 focus:ring-amber-500 cursor-pointer" />
+                    <label for="is_published" class="text-xs text-stone-700 cursor-pointer select-none">
+                        <strong class="text-stone-900 block text-sm font-bold">Published on Public Atlas</strong>
+                        Checked means this dataset is live and accessible on public dataset explorers.
+                    </label>
+                </div>
+
+                <div class="p-4 rounded-xl bg-stone-50 border border-stone-200 flex items-start gap-3">
+                    <input type="checkbox" id="is_featured" name="is_featured" value="1" @checked(old('is_featured', $dataset->is_featured))
+                        class="mt-0.5 w-5 h-5 rounded border-stone-300 text-orange-800 focus:ring-amber-500 cursor-pointer" />
+                    <label for="is_featured" class="text-xs text-stone-700 cursor-pointer select-none">
+                        <strong class="text-stone-900 block text-sm font-bold">Feature on Portal Hero</strong>
+                        Pinned to the top of open data explorers and download hubs.
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit & Actions -->
+        <div class="flex items-center justify-between gap-3 pt-4">
+            <a href="{{ route('admin.datasets.index') }}" class="px-5 py-2.5 rounded-xl border border-stone-300 text-xs font-semibold text-stone-700 hover:bg-stone-50 transition">
+                Cancel
+            </a>
+
+            <button type="submit"
+                class="px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-800 to-amber-700 hover:from-orange-900 hover:to-amber-800 shadow-sm transition">
+                Update Dataset Record
+            </button>
+        </div>
+
+    </form>
+</div>
+@endsection

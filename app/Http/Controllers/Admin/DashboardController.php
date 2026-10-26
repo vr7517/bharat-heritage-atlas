@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Claim;
+use App\Models\Dataset;
 use App\Models\Dynasty;
 use App\Models\Evidence;
 use App\Models\HeritageObject;
@@ -28,6 +29,7 @@ class DashboardController extends Controller
             'total_inscriptions' => Inscription::count(),
             'total_dynasties' => Dynasty::count(),
             'total_periods' => Period::count(),
+            'total_datasets' => Dataset::count(),
             'total_claims' => Claim::count(),
             'total_evidence' => Evidence::count(),
             'total_sources' => Source::count(),

@@ -18,7 +18,7 @@
                 Welcome back, {{ auth()->user()->name }}
             </h1>
             <p class="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl">
-                Manage the Bharat Heritage Atlas database directly. Adding or modifying records here dynamically propagates to the Public Map, Timeline, Monuments, Epigraphy, and Evidence Graph.
+                Manage the Bharat Heritage Atlas database directly. Adding or modifying records here dynamically propagates to the Public Map, Timeline, Monuments, Epigraphy, Open Datasets, and Evidence Graph.
             </p>
         </div>
 
@@ -32,6 +32,9 @@
             <a href="{{ route('admin.inscriptions.create') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 transition">
                 <span>📜 Add Epigraph</span>
             </a>
+            <a href="{{ route('admin.datasets.create') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 transition">
+                <span>📊 Add Dataset</span>
+            </a>
             <a href="{{ route('home') }}" target="_blank" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-50 transition">
                 <span>Public Atlas</span>
                 <span>&nearr;</span>
@@ -39,12 +42,12 @@
         </div>
     </div>
 
-    <!-- Core Content Modules (6 Primary Administrative Entities) -->
+    <!-- Core Content Modules (7 Primary Administrative Entities) -->
     <div>
         <h2 class="text-xs font-bold text-stone-500 uppercase tracking-wider mb-3">
             Core Heritage Entities & Knowledge Base
         </h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
             <!-- Sites -->
             <a href="{{ route('admin.sites.index') }}" class="group bg-white p-5 rounded-2xl border border-stone-200 shadow-2xs hover:border-amber-500 hover:shadow-xs transition block">
                 <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 group-hover:text-amber-800 block font-semibold">Sites & Monuments</span>
@@ -92,6 +95,15 @@
                 <div class="mt-2 text-2xl font-bold text-stone-900 font-mono">{{ $metrics['total_periods'] }}</div>
                 <div class="mt-2 text-[10px] text-stone-400 group-hover:text-amber-700 font-semibold">
                     Manage Periods &rarr;
+                </div>
+            </a>
+
+            <!-- Datasets -->
+            <a href="{{ route('admin.datasets.index') }}" class="group bg-white p-5 rounded-2xl border border-stone-200 shadow-2xs hover:border-amber-500 hover:shadow-xs transition block">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-stone-400 group-hover:text-amber-800 block font-semibold">Open Datasets</span>
+                <div class="mt-2 text-2xl font-bold text-stone-900 font-mono">{{ $metrics['total_datasets'] }}</div>
+                <div class="mt-2 text-[10px] text-stone-400 group-hover:text-amber-700 font-semibold">
+                    Manage Datasets &rarr;
                 </div>
             </a>
 
