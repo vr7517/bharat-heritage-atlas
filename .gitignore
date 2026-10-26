@@ -12,7 +12,7 @@ composer.lock.backup
 # Node & Frontend
 /node_modules/
 /public/build/
-/public/hot/
+/public/hot
 /public/storage
 npm-debug.log*
 yarn-error.log*
