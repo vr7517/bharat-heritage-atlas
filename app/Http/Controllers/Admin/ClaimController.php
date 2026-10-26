@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Claim;
 use App\Models\Evidence;
+use App\Models\HeritageObject;
 use App\Models\HeritageSite;
+use App\Models\Inscription;
 use App\Models\Source;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,6 +30,8 @@ class ClaimController extends Controller
 
         $modelClass = match ($validated['claimable_type']) {
             'site', HeritageSite::class => HeritageSite::class,
+            'object', 'artifact', HeritageObject::class => HeritageObject::class,
+            'inscription', Inscription::class => Inscription::class,
             default => abort(400, 'Invalid entity type for claim attachment.'),
         };
 

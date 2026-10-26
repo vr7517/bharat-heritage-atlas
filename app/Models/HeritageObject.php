@@ -79,6 +79,14 @@ class HeritageObject extends Model
 
     public function media(): MorphMany
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphMany(Media::class, 'mediable')->orderBy('display_order');
+    }
+
+    /**
+     * Retrieve the designated cover photograph or the first attached media item.
+     */
+    public function coverImage(): ?Media
+    {
+        return $this->media()->where('is_cover', true)->first() ?? $this->media()->first();
     }
 }

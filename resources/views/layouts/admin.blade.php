@@ -36,17 +36,26 @@
                 </div>
 
                 <!-- Nav Links -->
-                <nav class="hidden md:flex items-center gap-1 text-xs font-medium text-stone-300">
-                    <a href="{{ route('admin.dashboard') }}" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->routeIs('admin.dashboard') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                <nav class="hidden lg:flex items-center gap-1 text-xs font-medium text-stone-300">
+                    <a href="{{ route('admin.dashboard') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->routeIs('admin.dashboard') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
                         Dashboard
                     </a>
-                    <a href="{{ url('/admin/sites') }}" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/sites*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
-                        🏛️ Sites & Monuments
+                    <a href="{{ route('admin.sites.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/sites*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        🏛️ Sites
                     </a>
-                    <a href="{{ route('verification.index') }}" target="_blank" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition">
-                        🔍 Evidence Engine
+                    <a href="{{ route('admin.objects.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/objects*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        🏺 Artifacts
                     </a>
-                    <a href="{{ route('admin.sources.index') }}" class="px-3 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/sources*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                    <a href="{{ route('admin.inscriptions.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/inscriptions*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        📜 Epigraphy
+                    </a>
+                    <a href="{{ route('admin.dynasties.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/dynasties*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        👑 Dynasties
+                    </a>
+                    <a href="{{ route('admin.periods.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/periods*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        ⏳ Timeline
+                    </a>
+                    <a href="{{ route('admin.sources.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/sources*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
                         📚 Sources
                     </a>
                 </nav>
