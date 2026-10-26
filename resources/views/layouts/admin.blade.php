@@ -61,6 +61,9 @@
                     <a href="{{ route('admin.datasets.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/datasets*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
                         📊 Datasets
                     </a>
+                    <a href="{{ route('admin.exports.index') }}" class="px-2.5 py-1.5 rounded-lg hover:bg-stone-800 hover:text-white transition {{ request()->is('admin/exports*') ? 'bg-stone-800 text-amber-400 font-bold' : '' }}">
+                        📦 Exports
+                    </a>
                 </nav>
 
                 <!-- User & Actions -->

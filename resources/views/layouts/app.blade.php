@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Bharat Heritage Atlas — Evidence-Linked Indian Heritage Platform')</title>
-    <meta name="description" content="@yield('meta_description', 'A rigorous, evidence-linked digital heritage platform documenting ancient Indian monuments, epigraphical corpuses, and artifacts backed by peer-reviewed archaeological consensus.')">
+    <title>@yield('title', 'Bharat Heritage Atlas — Digital Stratigraphy & Epigraphy of Ancient India')</title>
+    <meta name="description" content="@yield('meta_description', 'An evidence-linked digital heritage platform documenting Indian archaeological monuments, in situ epigraphy, calibrated stratigraphy, and museum artifacts with zero fabrication.')">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -14,7 +14,6 @@
 
     <!-- Styles & Scripts via Vite -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     @yield('styles')
 </head>
 <body class="min-h-full flex flex-col bg-[#faf8f5] text-stone-900 font-sans antialiased selection:bg-amber-200 selection:text-amber-950">
@@ -29,7 +28,9 @@
                 <span class="hidden sm:inline text-stone-400">Strict Zero-Fabrication Policy • Every claim linked to primary epigraphy & excavation reports</span>
             </div>
             <div class="flex items-center gap-4 text-stone-400 text-[11px]">
-                <a href="{{ url('/api/v1/sites') }}" class="hover:text-amber-400 transition">REST API v1</a>
+                <a href="{{ route('research.index') }}" class="hover:text-amber-400 transition">Research Tools</a>
+                <span class="text-stone-700">•</span>
+                <a href="{{ route('developers.index') }}" class="hover:text-amber-400 transition">Developer API</a>
                 <span class="text-stone-700">•</span>
                 <a href="https://github.com/vr7517/bharat-heritage-atlas" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition flex items-center gap-1">
                     <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -59,7 +60,7 @@
                                 <span class="font-bold text-lg tracking-tight text-stone-900 group-hover:text-amber-800 transition">
                                     <span class="text-orange-700 font-serif">भारत</span> Heritage Atlas
                                 </span>
-                                <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-stone-200 text-stone-700">v0.3</span>
+                                <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-stone-200 text-stone-700">v0.4</span>
                             </div>
                             <p class="text-[11px] text-stone-500 font-medium tracking-wide">Evidence-Linked Digital Heritage Platform</p>
                         </div>
@@ -92,13 +93,13 @@
                         <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3zm0 4h16M9 4v16"/></svg>
                         Datasets
                     </a>
+                    <a href="{{ url('/research-tools') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        Research
+                    </a>
                     <a href="{{ url('/verification') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                         Evidence
-                    </a>
-                    <a href="{{ url('/sources') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
-                        <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        Sources
                     </a>
                 </nav>
 
@@ -108,7 +109,7 @@
                         <svg class="w-3.5 h-3.5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         <span>Search</span>
                     </a>
-                    <a href="{{ url('/api/v1/sites') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 shadow-2xs transition">
+                    <a href="{{ route('developers.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 shadow-2xs transition">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         API v1
                     </a>
@@ -134,10 +135,11 @@
             <a href="{{ url('/inscriptions') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📜 Epigraphy Corpus</a>
             <a href="{{ url('/timeline') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">⏳ Chronological Timeline</a>
             <a href="{{ url('/datasets') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📊 Open Datasets</a>
+            <a href="{{ url('/research-tools') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">✒️ Research Tools</a>
             <a href="{{ url('/verification') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🔍 Evidence Engine</a>
             <a href="{{ url('/sources') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📚 Primary Sources</a>
             <div class="pt-3 border-t border-stone-200 flex items-center justify-between">
-                <a href="{{ url('/api/v1/sites') }}" class="text-xs font-semibold text-stone-600 hover:text-orange-800">REST API v1 (/api/v1/sites)</a>
+                <a href="{{ route('developers.index') }}" class="text-xs font-semibold text-stone-600 hover:text-orange-800">Developer API Hub</a>
                 <a href="https://github.com/vr7517/bharat-heritage-atlas" class="text-xs font-semibold text-stone-600 hover:text-orange-800">GitHub Repository</a>
             </div>
         </div>
@@ -196,6 +198,7 @@
                     <h3 class="text-xs font-bold text-stone-100 uppercase tracking-wider mb-3">Methodology</h3>
                     <ul class="space-y-2 text-xs text-stone-400">
                         <li><a href="{{ url('/verification') }}" class="hover:text-amber-400 transition">Evidence Verification Engine</a></li>
+                        <li><a href="{{ route('research.index') }}" class="hover:text-amber-400 transition">Citation Generator & Tools</a></li>
                         <li><span class="text-stone-500">Dual Historical Dating</span></li>
                         <li><span class="text-stone-500">Reliability Tiers (1–4)</span></li>
                         <li><span class="text-stone-500">Peer-Reviewed Consensus</span></li>
@@ -208,9 +211,10 @@
                     <h3 class="text-xs font-bold text-stone-100 uppercase tracking-wider mb-3">Open Science</h3>
                     <ul class="space-y-2 text-xs text-stone-400">
                         <li><a href="{{ url('/datasets') }}" class="hover:text-amber-400 transition">Open Research Datasets</a></li>
-                        <li><a href="{{ url('/api/v1/sites') }}" class="hover:text-amber-400 transition">REST API v1 Endpoints</a></li>
-                        <li><a href="{{ url('/api/v1/geo/sites') }}" class="hover:text-amber-400 transition">RFC 7946 GeoJSON</a></li>
-                        <li><a href="{{ url('/api/v1/timeline') }}" class="hover:text-amber-400 transition">Timeline JSON Stream</a></li>
+                        <li><a href="{{ route('developers.index') }}" class="hover:text-amber-400 transition">Developer API Hub</a></li>
+                        <li><a href="{{ route('api.v1.export.geojson') }}" class="hover:text-amber-400 transition">Bulk GeoJSON Export</a></li>
+                        <li><a href="{{ route('api.v1.export.bibtex') }}" class="hover:text-amber-400 transition">BibTeX Citation Stream</a></li>
+                        <li><a href="{{ url('/api/v1/geo/sites') }}" class="hover:text-amber-400 transition">RFC 7946 GeoJSON Feed</a></li>
                         <li><a href="https://github.com/vr7517/bharat-heritage-atlas" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition">GitHub Open Source</a></li>
                     </ul>
                 </div>
