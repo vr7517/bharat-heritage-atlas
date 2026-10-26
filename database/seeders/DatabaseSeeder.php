@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             GudimallamSeeder::class,
             HeliodorusPillarSeeder::class,
             SanchiSeeder::class,
+            DatasetSeeder::class,
         ]);
     }
 }
