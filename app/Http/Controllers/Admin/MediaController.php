@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\HeritageObject;
 use App\Models\HeritageSite;
+use App\Models\Inscription;
 use App\Models\Media;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -32,12 +34,21 @@ class MediaController extends Controller
 
         $modelClass = match ($validated['mediable_type']) {
             'site', HeritageSite::class => HeritageSite::class,
+            'object', 'artifact', HeritageObject::class => HeritageObject::class,
+            'inscription', Inscription::class => Inscription::class,
             default => abort(400, 'Invalid entity type for media attachment.'),
         };
 
         $entity = $modelClass::findOrFail($validated['mediable_id']);
 
-        $path = $request->file('image')->store('media/sites', 'public');
+        $subfolder = match ($modelClass) {
+            HeritageSite::class => 'media/sites',
+            HeritageObject::class => 'media/objects',
+            Inscription::class => 'media/inscriptions',
+            default => 'media/general',
+        };
+
+        $path = $request->file('image')->store($subfolder, 'public');
 
         $isCover = $request->boolean('is_cover');
 

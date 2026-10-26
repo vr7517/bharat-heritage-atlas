@@ -3,7 +3,11 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ClaimController as AdminClaimController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DynastyController as AdminDynastyController;
+use App\Http\Controllers\Admin\InscriptionController as AdminInscriptionController;
 use App\Http\Controllers\Admin\MediaController as AdminMediaController;
+use App\Http\Controllers\Admin\ObjectController as AdminObjectController;
+use App\Http\Controllers\Admin\PeriodController as AdminPeriodController;
 use App\Http\Controllers\Admin\SiteController as AdminSiteController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
 use App\Http\Controllers\Web\HomeController;
@@ -58,6 +62,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Heritage Site Management (CRUD & Publishing)
         Route::resource('sites', AdminSiteController::class);
         Route::post('sites/{id}/toggle-publish', [AdminSiteController::class, 'togglePublish'])->name('sites.toggle-publish');
+
+        // Artifacts & Sculptures Management (CRUD & Publishing)
+        Route::resource('objects', AdminObjectController::class);
+        Route::post('objects/{id}/toggle-publish', [AdminObjectController::class, 'togglePublish'])->name('objects.toggle-publish');
+
+        // Epigraphy & Inscriptions Management (CRUD & Publishing)
+        Route::resource('inscriptions', AdminInscriptionController::class);
+        Route::post('inscriptions/{id}/toggle-publish', [AdminInscriptionController::class, 'togglePublish'])->name('inscriptions.toggle-publish');
+
+        // Dynasties Management (CRUD)
+        Route::resource('dynasties', AdminDynastyController::class);
+
+        // Timeline Historical Periods Management (CRUD)
+        Route::resource('periods', AdminPeriodController::class);
 
         // Media & Visual Archive Pipeline
         Route::post('media/upload', [AdminMediaController::class, 'store'])->name('media.upload');
