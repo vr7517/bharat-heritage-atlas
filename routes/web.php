@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ClaimController as AdminClaimController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DatasetController as AdminDatasetController;
 use App\Http\Controllers\Admin\DynastyController as AdminDynastyController;
 use App\Http\Controllers\Admin\InscriptionController as AdminInscriptionController;
 use App\Http\Controllers\Admin\MediaController as AdminMediaController;
@@ -10,10 +11,12 @@ use App\Http\Controllers\Admin\ObjectController as AdminObjectController;
 use App\Http\Controllers\Admin\PeriodController as AdminPeriodController;
 use App\Http\Controllers\Admin\SiteController as AdminSiteController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
+use App\Http\Controllers\Web\DatasetController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\InscriptionController;
 use App\Http\Controllers\Web\MapController;
 use App\Http\Controllers\Web\ObjectController;
+use App\Http\Controllers\Web\SearchController;
 use App\Http\Controllers\Web\SiteController;
 use App\Http\Controllers\Web\SourceController;
 use App\Http\Controllers\Web\TimelineController;
@@ -26,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/map', [MapController::class, 'index'])->name('map.index');
 Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline.index');
 
@@ -37,6 +41,10 @@ Route::get('/objects/{slug}', [ObjectController::class, 'show'])->name('objects.
 
 Route::get('/inscriptions', [InscriptionController::class, 'index'])->name('inscriptions.index');
 Route::get('/inscriptions/{slug}', [InscriptionController::class, 'show'])->name('inscriptions.show');
+
+Route::get('/datasets', [DatasetController::class, 'index'])->name('datasets.index');
+Route::get('/datasets/{slug}', [DatasetController::class, 'show'])->name('datasets.show');
+Route::get('/datasets/{slug}/download', [DatasetController::class, 'download'])->name('datasets.download');
 
 Route::get('/verification', [VerificationController::class, 'index'])->name('verification.index');
 Route::get('/verification/claims/{id}', [VerificationController::class, 'show'])->name('verification.show');
@@ -76,6 +84,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Timeline Historical Periods Management (CRUD)
         Route::resource('periods', AdminPeriodController::class);
+
+        // Open Datasets Management (CRUD, Publishing & Featured)
+        Route::resource('datasets', AdminDatasetController::class);
+        Route::post('datasets/{id}/toggle-publish', [AdminDatasetController::class, 'togglePublish'])->name('datasets.toggle-publish');
+        Route::post('datasets/{id}/toggle-featured', [AdminDatasetController::class, 'toggleFeatured'])->name('datasets.toggle-featured');
 
         // Media & Visual Archive Pipeline
         Route::post('media/upload', [AdminMediaController::class, 'store'])->name('media.upload');

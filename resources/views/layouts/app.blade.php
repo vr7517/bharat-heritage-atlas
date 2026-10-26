@@ -88,9 +88,13 @@
                         <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Timeline
                     </a>
+                    <a href="{{ url('/datasets') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3zm0 4h16M9 4v16"/></svg>
+                        Datasets
+                    </a>
                     <a href="{{ url('/verification') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                        Evidence Engine
+                        Evidence
                     </a>
                     <a href="{{ url('/sources') }}" class="px-3 py-2 rounded-md hover:text-orange-800 hover:bg-stone-100 transition flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -100,6 +104,10 @@
 
                 <!-- Actions / Search / API Shortcut -->
                 <div class="hidden sm:flex items-center gap-3">
+                    <a href="{{ route('search.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 shadow-2xs transition">
+                        <svg class="w-3.5 h-3.5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <span>Search</span>
+                    </a>
                     <a href="{{ url('/api/v1/sites') }}" target="_blank" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 shadow-2xs transition">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         API v1
@@ -119,11 +127,13 @@
 
         <!-- Mobile Navigation Menu Dropdown -->
         <div id="mobile-menu" class="hidden lg:hidden border-t border-stone-200 bg-stone-50 px-4 pt-3 pb-5 space-y-1">
+            <a href="{{ route('search.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🔍 Advanced Search</a>
             <a href="{{ url('/map') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🗺️ Map Atlas</a>
             <a href="{{ url('/sites') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🏛️ Monuments & Sites</a>
             <a href="{{ url('/objects') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🏺 Artifacts & Relics</a>
             <a href="{{ url('/inscriptions') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📜 Epigraphy Corpus</a>
             <a href="{{ url('/timeline') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">⏳ Chronological Timeline</a>
+            <a href="{{ url('/datasets') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📊 Open Datasets</a>
             <a href="{{ url('/verification') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">🔍 Evidence Engine</a>
             <a href="{{ url('/sources') }}" class="block px-3 py-2 rounded-md text-base font-medium text-stone-700 hover:bg-amber-100 hover:text-orange-900">📚 Primary Sources</a>
             <div class="pt-3 border-t border-stone-200 flex items-center justify-between">
@@ -172,6 +182,7 @@
                 <div>
                     <h3 class="text-xs font-bold text-stone-100 uppercase tracking-wider mb-3">Exploration</h3>
                     <ul class="space-y-2 text-xs text-stone-400">
+                        <li><a href="{{ url('/search') }}" class="hover:text-amber-400 transition">Cross-Corpus Search</a></li>
                         <li><a href="{{ url('/map') }}" class="hover:text-amber-400 transition">Interactive Map Atlas</a></li>
                         <li><a href="{{ url('/timeline') }}" class="hover:text-amber-400 transition">Chronological Timeline</a></li>
                         <li><a href="{{ url('/sites') }}" class="hover:text-amber-400 transition">Heritage Monuments</a></li>
@@ -196,11 +207,11 @@
                 <div>
                     <h3 class="text-xs font-bold text-stone-100 uppercase tracking-wider mb-3">Open Science</h3>
                     <ul class="space-y-2 text-xs text-stone-400">
+                        <li><a href="{{ url('/datasets') }}" class="hover:text-amber-400 transition">Open Research Datasets</a></li>
                         <li><a href="{{ url('/api/v1/sites') }}" class="hover:text-amber-400 transition">REST API v1 Endpoints</a></li>
                         <li><a href="{{ url('/api/v1/geo/sites') }}" class="hover:text-amber-400 transition">RFC 7946 GeoJSON</a></li>
                         <li><a href="{{ url('/api/v1/timeline') }}" class="hover:text-amber-400 transition">Timeline JSON Stream</a></li>
                         <li><a href="https://github.com/vr7517/bharat-heritage-atlas" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition">GitHub Open Source</a></li>
-                        <li><span class="text-stone-500">OpenAPI 3.1 Contract</span></li>
                     </ul>
                 </div>
             </div>
