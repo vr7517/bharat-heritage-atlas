@@ -292,7 +292,7 @@
                     <label for="cover_image" class="block font-bold text-stone-700 uppercase tracking-wider">
                         {{ $site->coverImage() ? 'Replace Cover Image' : 'Upload Cover Image' }} <span class="text-stone-400 font-normal font-sans">(JPEG, PNG, WebP up to 20MB)</span>
                     </label>
-                    <input type="file" id="cover_image" name="cover_image" accept="image/*"
+                    <input type="file" id="cover_image" name="cover_image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
                         class="mt-1.5 w-full rounded-xl border border-stone-300 px-3.5 py-2.5 text-xs text-stone-700 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-600 bg-stone-50/50 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-900 hover:file:bg-amber-200 cursor-pointer" />
                 </div>
 
@@ -441,7 +441,7 @@
                     <label for="gallery_image" class="block font-bold text-stone-700 uppercase tracking-wider">
                         Image File <span class="text-rose-600">*</span> <span class="text-stone-400 font-normal font-sans">(JPEG, PNG, WebP up to 20MB)</span>
                     </label>
-                    <input type="file" id="gallery_image" name="image" accept="image/*" required
+                    <input type="file" id="gallery_image" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required
                         class="mt-1 w-full rounded-xl border border-stone-300 px-3 py-2 text-xs text-stone-700 bg-stone-50/50 file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-100 file:text-amber-900 cursor-pointer" />
                 </div>
 

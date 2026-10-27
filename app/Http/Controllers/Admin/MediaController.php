@@ -9,6 +9,7 @@ use App\Models\Inscription;
 use App\Models\Media;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
@@ -19,8 +20,9 @@ class MediaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Detect and report raw PHP upload errors with friendly messages
-        if ($request->hasFile('image') && ! $request->file('image')->isValid()) {
-            $errorCode = $request->file('image')->getError();
+        $image = $request->file('image');
+        if ($image instanceof UploadedFile && ! $image->isValid()) {
+            $errorCode = $image->getError();
             $errorMessage = match ($errorCode) {
                 UPLOAD_ERR_INI_SIZE => 'The image exceeds the server upload limit. Please compress the image below 20MB.',
                 UPLOAD_ERR_FORM_SIZE => 'The image exceeds the form upload limit.',

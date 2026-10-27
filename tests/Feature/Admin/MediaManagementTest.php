@@ -6,6 +6,7 @@ use App\Models\HeritageSite;
 use App\Models\Location;
 use App\Models\Media;
 use App\Models\User;
+use Illuminate\Foundation\Console\ServeCommand;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +38,18 @@ class MediaManagementTest extends TestCase
             'password' => Hash::make('SecretPass123'),
             'is_admin' => false,
         ]);
+    }
+
+    public function test_windows_dev_server_preserves_php_upload_temp_environment(): void
+    {
+        if (PHP_OS_FAMILY !== 'Windows') {
+            $this->markTestSkipped('The development-server temp environment fix applies only to Windows.');
+        }
+
+        foreach (['TEMP', 'TMP'] as $variable) {
+            $this->assertContains($variable, ServeCommand::$passthroughVariables);
+            $this->assertSame(getenv($variable) ?: null, $_ENV[$variable] ?? null);
+        }
     }
 
     public function test_admin_can_upload_cover_image_during_site_creation(): void
@@ -113,6 +126,26 @@ class MediaManagementTest extends TestCase
 
         $media = Media::where('caption', 'Bodhisattva Padmapani holding blue lotus')->first();
         Storage::disk('public')->assertExists($media->file_path);
+    }
+
+    public function test_php_upload_errors_are_reported_when_no_temporary_file_is_created(): void
+    {
+        $file = new UploadedFile(
+            '',
+            'sanchi-torana.jpg',
+            'image/jpeg',
+            UPLOAD_ERR_NO_TMP_DIR,
+            true,
+        );
+
+        $response = $this->actingAs($this->admin)->post('/admin/media/upload', [
+            'image' => $file,
+        ]);
+
+        $response->assertRedirect();
+        $response->assertSessionHasErrors([
+            'image' => 'Server error: Temporary directory missing on server.',
+        ]);
     }
 
     public function test_admin_can_designate_image_as_primary_cover(): void

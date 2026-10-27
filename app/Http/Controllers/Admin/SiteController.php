@@ -12,6 +12,7 @@ use App\Models\Source;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -96,8 +97,9 @@ class SiteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
-            $errorCode = $request->file('cover_image')->getError();
+        $coverImage = $request->file('cover_image');
+        if ($coverImage instanceof UploadedFile && ! $coverImage->isValid()) {
+            $errorCode = $coverImage->getError();
             $errorMessage = match ($errorCode) {
                 UPLOAD_ERR_INI_SIZE => 'The cover image exceeds the server upload limit. Please compress the image below 20MB.',
                 UPLOAD_ERR_FORM_SIZE => 'The cover image exceeds the form upload limit.',
@@ -237,8 +239,9 @@ class SiteController extends Controller
     {
         $site = HeritageSite::findOrFail($id);
 
-        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
-            $errorCode = $request->file('cover_image')->getError();
+        $coverImage = $request->file('cover_image');
+        if ($coverImage instanceof UploadedFile && ! $coverImage->isValid()) {
+            $errorCode = $coverImage->getError();
             $errorMessage = match ($errorCode) {
                 UPLOAD_ERR_INI_SIZE => 'The cover image exceeds the server upload limit. Please compress the image below 20MB.',
                 UPLOAD_ERR_FORM_SIZE => 'The cover image exceeds the form upload limit.',
