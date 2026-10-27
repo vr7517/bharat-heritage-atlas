@@ -15,7 +15,7 @@ class InscriptionController extends Controller
     public function index(Request $request): View
     {
         $query = Inscription::query()
-            ->with(['heritageSite', 'object'])
+            ->with(['heritageSite', 'object', 'media'])
             ->withCount('claims')
             ->where('is_published', true);
 
@@ -59,8 +59,9 @@ class InscriptionController extends Controller
     {
         $inscription = Inscription::with([
             'heritageSite.location',
-            'object',
+            'object.media',
             'claims.evidence.sources',
+            'media',
         ])
             ->where('is_published', true)
             ->where('slug', $slug)

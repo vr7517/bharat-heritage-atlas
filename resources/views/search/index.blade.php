@@ -7,7 +7,7 @@
 <div class="space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
     <!-- Top Search Header -->
-    <div class="bg-gradient-to-br from-stone-900 to-amber-950 text-white rounded-3xl p-6 sm:p-10 shadow-sm space-y-6">
+    <div class="bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 text-white rounded-3xl p-6 sm:p-10 shadow-lg space-y-6">
         <div>
             <span class="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 uppercase tracking-wider">
                 Cross-Corpus Knowledge Graph
@@ -26,12 +26,12 @@
 
             <div class="relative flex items-center">
                 <input type="text" name="q" value="{{ $q }}"
-                    placeholder="Search by keywords, site name, ruler (e.g. Ashoka, Heliodorus), script, findspot, material, or citation..."
-                    class="w-full rounded-2xl bg-white text-stone-900 px-5 py-3.5 pr-28 text-sm focus:outline-hidden focus:ring-4 focus:ring-amber-500/30 shadow-lg placeholder:text-stone-400 font-medium" />
+                    placeholder="{{ __('ui.search_placeholder') }}"
+                    class="w-full rounded-2xl bg-white text-stone-900 px-5 py-3.5 pr-28 text-sm focus:outline-hidden focus:ring-4 focus:ring-amber-500/30 shadow-lg placeholder:text-stone-400 font-medium min-h-[48px]" />
 
                 <button type="submit"
-                    class="absolute right-2 px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-800 to-amber-700 hover:from-orange-900 hover:to-amber-800 shadow-sm transition">
-                    Search
+                    class="absolute right-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-800 to-amber-700 hover:from-orange-900 hover:to-amber-800 shadow-sm transition min-h-[40px]">
+                    {{ __('ui.nav_search') }}
                 </button>
             </div>
 
@@ -39,8 +39,8 @@
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs pt-1">
                 <div>
                     <select name="period" onchange="this.form.submit()"
-                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
-                        <option value="">All Historical Periods</option>
+                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 min-h-[40px]">
+                        <option value="">{{ __('ui.all_periods') }}</option>
                         @foreach($periods as $p)
                         <option value="{{ $p->slug }}" @selected($periodSlug === $p->slug)>{{ $p->name }}</option>
                         @endforeach
@@ -49,8 +49,8 @@
 
                 <div>
                     <select name="dynasty" onchange="this.form.submit()"
-                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
-                        <option value="">All Dynastic Realms</option>
+                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 min-h-[40px]">
+                        <option value="">{{ __('ui.all_dynasties') }}</option>
                         @foreach($dynasties as $d)
                         <option value="{{ $d->slug }}" @selected($dynastySlug === $d->slug)>{{ $d->name }}</option>
                         @endforeach
@@ -59,8 +59,8 @@
 
                 <div>
                     <select name="state" onchange="this.form.submit()"
-                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
-                        <option value="">All Indian States</option>
+                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 min-h-[40px]">
+                        <option value="">{{ __('ui.all_states') }}</option>
                         @foreach($states as $s)
                         <option value="{{ $s }}" @selected($state === $s)>{{ $s }}</option>
                         @endforeach
@@ -69,13 +69,13 @@
 
                 <div>
                     <select name="consensus" onchange="this.form.submit()"
-                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500">
-                        <option value="">All Consensus Levels</option>
-                        <option value="STRONG_CONSENSUS" @selected($consensus === 'STRONG_CONSENSUS')>Strong Consensus</option>
+                        class="w-full rounded-xl bg-stone-800/90 text-stone-200 border border-stone-700 px-3 py-2 text-xs focus:ring-1 focus:ring-amber-500 focus:border-amber-500 min-h-[40px]">
+                        <option value="">{{ __('ui.all_consensus') }}</option>
+                        <option value="STRONG_CONSENSUS" @selected($consensus === 'STRONG_CONSENSUS')>{{ __('ui.strong_consensus') }}</option>
                         <option value="PROBABLE" @selected($consensus === 'PROBABLE')>Probable</option>
-                        <option value="SCHOLARLY_DEBATE" @selected($consensus === 'SCHOLARLY_DEBATE')>Scholarly Debate</option>
-                        <option value="CONTESTED" @selected($consensus === 'CONTESTED')>Contested</option>
-                        <option value="SPECULATIVE" @selected($consensus === 'SPECULATIVE')>Speculative</option>
+                        <option value="SCHOLARLY_DEBATE" @selected($consensus === 'SCHOLARLY_DEBATE')>{{ __('ui.scholarly_debate') }}</option>
+                        <option value="CONTESTED" @selected($consensus === 'CONTESTED')>{{ __('ui.contested') }}</option>
+                        <option value="SPECULATIVE" @selected($consensus === 'SPECULATIVE')>{{ __('ui.speculative') }}</option>
                     </select>
                 </div>
             </div>
@@ -90,37 +90,37 @@
             @endphp
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'all'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'all' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'all' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 All Results ({{ $counts['total'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'sites'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'sites' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'sites' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 🏛️ Sites ({{ $counts['sites'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'objects'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'objects' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'objects' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 🏺 Artifacts ({{ $counts['objects'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'inscriptions'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'inscriptions' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'inscriptions' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 📜 Epigraphy ({{ $counts['inscriptions'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'datasets'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'datasets' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'datasets' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 📊 Datasets ({{ $counts['datasets'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'sources'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'sources' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'sources' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 📚 Sources ({{ $counts['sources'] }})
             </a>
 
             <a href="{{ route('search.index', array_merge($tabParams, ['type' => 'claims'])) }}"
-                class="px-4 py-2 rounded-xl transition shrink-0 {{ $entityType === 'claims' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
+                class="px-4 py-2 rounded-xl transition shrink-0 min-h-[40px] flex items-center {{ $entityType === 'claims' ? 'bg-stone-900 text-white font-bold' : 'text-stone-600 hover:bg-stone-100' }}">
                 ⚖️ Claims ({{ $counts['claims'] }})
             </a>
         </nav>
@@ -391,17 +391,17 @@
 
         <!-- Empty State -->
         @if($counts['total'] === 0)
-        <div class="py-16 text-center rounded-2xl bg-white border border-stone-200">
-            <div class="w-12 h-12 rounded-full bg-stone-100 text-stone-400 mx-auto flex items-center justify-center text-xl mb-3">
+        <div class="py-20 text-center rounded-3xl bg-white border border-stone-200 p-8 shadow-xs">
+            <div class="w-16 h-16 rounded-full bg-amber-50 text-amber-800 mx-auto flex items-center justify-center text-3xl mb-4 border border-amber-200">
                 🔍
             </div>
-            <h3 class="text-base font-bold text-stone-900">No records found matching your query</h3>
-            <p class="text-xs text-stone-500 mt-1 max-w-md mx-auto">
-                Try searching for alternate transliterations, broader keywords, or clearing your filter selections.
+            <h3 class="text-lg font-bold text-stone-900">{{ __('ui.no_records_found') }}</h3>
+            <p class="text-xs sm:text-sm text-stone-600 mt-2 max-w-md mx-auto">
+                {{ __('ui.no_records_suggestion') }}
             </p>
-            <div class="mt-4">
-                <a href="{{ route('search.index') }}" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-stone-900 hover:bg-stone-800 transition">
-                    Clear All Filters
+            <div class="mt-6">
+                <a href="{{ route('search.index') }}" class="min-h-[44px] inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-stone-900 hover:bg-stone-800 transition">
+                    {{ __('ui.clear_filters') }}
                 </a>
             </div>
         </div>

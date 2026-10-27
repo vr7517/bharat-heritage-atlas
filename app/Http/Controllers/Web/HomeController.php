@@ -25,13 +25,13 @@ class HomeController extends Controller
             'claims_count' => Claim::count(),
         ];
 
-        $featuredSites = HeritageSite::with(['location', 'primaryPeriod', 'primaryDynasty', 'objects'])
+        $featuredSites = HeritageSite::with(['location', 'primaryPeriod', 'primaryDynasty', 'objects', 'media'])
             ->where('is_published', true)
             ->orderBy('start_year', 'asc')
             ->take(3)
             ->get();
 
-        $sampleInscriptions = Inscription::with(['heritageSite'])
+        $sampleInscriptions = Inscription::with(['heritageSite', 'media'])
             ->take(3)
             ->get();
 

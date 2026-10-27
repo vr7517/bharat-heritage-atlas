@@ -15,7 +15,7 @@ class ObjectController extends Controller
     public function index(Request $request): View
     {
         $query = HeritageObject::query()
-            ->with(['heritageSite', 'period', 'dynasty'])
+            ->with(['heritageSite', 'period', 'dynasty', 'media'])
             ->withCount(['inscriptions', 'claims'])
             ->where('is_published', true);
 
@@ -50,11 +50,11 @@ class ObjectController extends Controller
     {
         $object = HeritageObject::with([
             'heritageSite.location',
-            'location',
             'period',
             'dynasty',
-            'inscriptions',
+            'inscriptions.media',
             'claims.evidence.sources',
+            'media',
         ])
             ->where('is_published', true)
             ->where('slug', $slug)

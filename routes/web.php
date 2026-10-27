@@ -32,6 +32,16 @@ use Illuminate\Support\Facades\Route;
 | Public Web Routes (Public Digital Atlas)
 |--------------------------------------------------------------------------
 */
+// Language & Locale Switcher (Persists in Session & 1-Year Cookie)
+Route::get('/locale/{locale}', function (string $locale) {
+    if (in_array($locale, ['en', 'hi'], true)) {
+        session(['locale' => $locale]);
+        cookie()->queue(cookie('bha_locale', $locale, 60 * 24 * 365));
+    }
+
+    return redirect()->back();
+})->name('locale.switch');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/map', [MapController::class, 'index'])->name('map.index');

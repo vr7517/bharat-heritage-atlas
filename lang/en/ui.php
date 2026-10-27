@@ -1,0 +1,133 @@
+<?php
+
+return [
+    // Branding & Identity
+    'brand_title' => 'Bharat Heritage Atlas',
+    'brand_hindi' => 'भारत',
+    'brand_tagline' => 'Evidence-Linked Digital Heritage Platform',
+    'brand_description' => 'An evidence-linked digital heritage platform documenting Indian archaeological monuments, in situ epigraphy, calibrated stratigraphy, and museum artifacts with zero fabrication.',
+    
+    // Top Ethos Bar
+    'ethos_standard' => 'ACADEMIC EVIDENCE STANDARD',
+    'ethos_policy' => 'Strict Zero-Fabrication Policy • Every claim linked to primary epigraphy & excavation reports',
+    'research_tools' => 'Research Tools',
+    'developer_api' => 'Developer API',
+    'github' => 'GitHub',
+
+    // Navigation Items
+    'nav_map' => 'Map Atlas',
+    'nav_sites' => 'Monuments',
+    'nav_objects' => 'Artifacts',
+    'nav_inscriptions' => 'Epigraphy',
+    'nav_timeline' => 'Timeline',
+    'nav_datasets' => 'Datasets',
+    'nav_research' => 'Research',
+    'nav_evidence' => 'Evidence Engine',
+    'nav_sources' => 'Primary Sources',
+    'nav_search' => 'Search',
+    'api_v1' => 'API v1',
+
+    // Language Switcher
+    'lang_en' => 'English',
+    'lang_hi' => 'हिन्दी',
+
+    // Hero Section
+    'hero_pill' => 'Evidence-Linked Cultural Heritage Platform',
+    'hero_title_prefix' => 'Unveiling Ancient India Through',
+    'hero_title_highlight' => 'Verified Epigraphy',
+    'hero_title_suffix' => '& Archaeological Science',
+    'hero_subtitle' => 'Every monument, sculpture, and epigraphical record in the Bharat Heritage Atlas is strictly anchored in primary archaeological excavation reports, in situ stratum verifications, and peer-reviewed academic consensus — with zero AI-generated fabrication.',
+    'explore_map' => 'Explore Map Atlas',
+    'chronological_timeline' => 'Chronological Timeline',
+    'evidence_engine' => 'Evidence Engine',
+
+    // Statistics Counter
+    'stat_monuments' => 'Monuments',
+    'stat_monuments_sub' => 'Verified In Situ Complexes',
+    'stat_objects' => 'Relics & Pillars',
+    'stat_objects_sub' => 'Sculptures & Relics',
+    'stat_epigraphs' => 'Epigraphs',
+    'stat_epigraphs_sub' => 'Brahmi Facsimiles & Texts',
+    'stat_sources' => 'Scholarly Sources',
+    'stat_sources_sub' => 'ASI, Cunningham, Sircar',
+    'stat_claims' => 'Evidence Claims',
+    'stat_claims_sub' => 'Peer-Reviewed Consensus',
+
+    // Sections & Titles
+    'featured_dossiers' => 'Featured Monographic Dossiers',
+    'verified_sites' => 'Verified Archaeological Heritage Sites',
+    'verified_sites_sub' => 'Monuments documented with verified stratigraphy, dual dating, and epigraphical facsimiles.',
+    'browse_all_sites' => 'Browse All Monuments',
+    'epigraphical_corpus' => 'Epigraphical Corpus',
+    'epigraphy_title' => 'Verbatim Brahmi Facsimiles & Inscriptions',
+    'epigraphy_sub' => 'Epigraphy is the bedrock of Indian civilizational history. We record verbatim Brahmi glyphs alongside scholarly transliteration, paleographical dating, and verified translations from Epigraphia Indica.',
+    'explore_epigraphy' => 'Explore Full Epigraphy Corpus',
+
+    // Cards & Meta
+    'ancient_period' => 'Ancient Era',
+    'dynasty' => 'Dynasty',
+    'details' => 'View Monograph',
+    'view_object' => 'View Object',
+    'epigraph_dossier' => 'Epigraph Dossier',
+    'dating' => 'Dating',
+    'astronomical_range' => 'Astronomical Range',
+    'repository' => 'Repository',
+    'in_situ' => 'In Situ',
+    'artifacts_count' => 'Artifacts',
+    'monument_type' => 'Typology',
+
+    // Filters & Search
+    'search_placeholder' => 'Search temples, monuments, dynasties, inscriptions...',
+    'all_typologies' => 'All Typologies',
+    'all_periods' => 'All Historical Periods',
+    'all_dynasties' => 'All Dynastic Realms',
+    'all_states' => 'All Indian States',
+    'all_consensus' => 'All Consensus Levels',
+    'filter' => 'Filter',
+    'reset' => 'Reset',
+    'clear_filters' => 'Clear All Filters',
+    'no_records_found' => 'No heritage records found',
+    'no_records_suggestion' => 'Try searching with another name, location, dynasty or broader keywords.',
+
+    // Show Pages
+    'monograph_hero_title' => 'Archaeological Monograph',
+    'visual_archive' => 'Visual Archive & Photographic Plates',
+    'visual_archive_sub' => 'Archival photographs, estampage impressions, and architectural drawings with verified provenance.',
+    'in_situ_stratum' => 'In Situ Archaeological Stratum & Coordinates',
+    'state' => 'Modern State',
+    'district' => 'District',
+    'geographic_settlement' => 'Geographic Settlement',
+    'coordinates' => 'Latitude / Longitude',
+    'spatial_accuracy' => 'Spatial Accuracy',
+    'elevation' => 'Elevation / Altitude',
+    'executive_summary' => 'Executive Archaeological Summary',
+    'historical_context' => 'Historical & Epigraphical Context',
+    'architectural_description' => 'Architectural & Structural Breakdown',
+    'classification' => 'Archival Classification',
+    'parent_monument' => 'In Situ Monument Context',
+    'material' => 'Material Composition',
+    'dimensions' => 'Dimensions',
+    'script' => 'Script',
+    'language' => 'Language',
+    'ruler' => 'Ruler Mentioned',
+    'verbatim_script' => 'Verbatim Ancient Script Facsimile & Transcription',
+    'translation' => 'Scholarly Translation',
+    'settled_consensus' => 'Settled Consensus',
+    'strong_consensus' => 'Strong Consensus',
+    'scholarly_debate' => 'Scholarly Debate',
+    'contested' => 'Contested',
+    'speculative' => 'Speculative',
+    'evidence_breakdown' => 'Inspect Evidence Graph & Breakdown',
+    'primary_sources' => 'Primary Bibliographic Sources',
+
+    // Footer
+    'footer_about' => 'An evidence-linked digital heritage platform dedicated to Indian civilizational history. Built with strict academic rigor, separating empirical epigraphy and excavation strata from historical speculation.',
+    'zero_fabrication' => 'Zero Fabrication',
+    'primary_epigraphy' => 'Primary Epigraphy',
+    'in_situ_strata' => 'In Situ Strata',
+    'exploration' => 'Exploration',
+    'methodology' => 'Methodology',
+    'open_science' => 'Open Science',
+    'copyright' => 'Bharat Heritage Atlas. Open Cultural Heritage & Academic Epigraphy.',
+    'built_with' => 'Built with Laravel 12 & Tailwind CSS • Dual Historical Dating Framework',
+];

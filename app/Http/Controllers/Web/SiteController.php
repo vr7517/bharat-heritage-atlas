@@ -16,7 +16,7 @@ class SiteController extends Controller
     public function index(Request $request): View
     {
         $query = HeritageSite::query()
-            ->with(['location', 'primaryPeriod', 'primaryDynasty'])
+            ->with(['location', 'primaryPeriod', 'primaryDynasty', 'media'])
             ->withCount(['objects', 'inscriptions', 'claims'])
             ->where('is_published', true);
 
@@ -70,9 +70,10 @@ class SiteController extends Controller
             'location',
             'primaryPeriod',
             'primaryDynasty',
-            'objects',
-            'inscriptions',
+            'objects.media',
+            'inscriptions.media',
             'claims.evidence.sources',
+            'media',
         ])
             ->where('is_published', true)
             ->where('slug', $slug)

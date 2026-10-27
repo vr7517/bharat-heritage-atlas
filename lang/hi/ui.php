@@ -1,0 +1,133 @@
+<?php
+
+return [
+    // Branding & Identity
+    'brand_title' => 'भारत हेरिटेज एटलस',
+    'brand_hindi' => 'भारत',
+    'brand_tagline' => 'प्रमाण-आधारित डिजिटल विरासत मंच',
+    'brand_description' => 'भारतीय पुरातात्विक स्मारकों, मूल शिलालेखों, स्तर-विज्ञान और संग्रहालय पुरावशेषों का प्रामाणिक डिजिटल एटलस — बिना किसी काल्पनिक जानकारी के।',
+    
+    // Top Ethos Bar
+    'ethos_standard' => 'शैक्षणिक प्रमाण मानक',
+    'ethos_policy' => 'शून्य-काल्पनिकता नीति • प्रत्येक दावा मूल शिलालेखों और उत्खनन रिपोर्टों से प्रमाणित',
+    'research_tools' => 'शोध उपकरण',
+    'developer_api' => 'डेवलपर API',
+    'github' => 'गिटहब (GitHub)',
+
+    // Navigation Items
+    'nav_map' => 'मानचित्र (Map)',
+    'nav_sites' => 'स्मारक (Monuments)',
+    'nav_objects' => 'पुरावशेष (Artifacts)',
+    'nav_inscriptions' => 'शिलालेख (Epigraphy)',
+    'nav_timeline' => 'कालक्रम (Timeline)',
+    'nav_datasets' => 'डेटासेट (Datasets)',
+    'nav_research' => 'शोध (Research)',
+    'nav_evidence' => 'प्रमाण इंजन (Evidence)',
+    'nav_sources' => 'मूल स्रोत (Sources)',
+    'nav_search' => 'खोजें (Search)',
+    'api_v1' => 'API v1',
+
+    // Language Switcher
+    'lang_en' => 'English',
+    'lang_hi' => 'हिन्दी',
+
+    // Hero Section
+    'hero_pill' => 'प्रमाण-आधारित सांस्कृतिक विरासत मंच',
+    'hero_title_prefix' => 'प्राचीन भारत की गाथा',
+    'hero_title_highlight' => 'सत्यापित शिलालेखों',
+    'hero_title_suffix' => 'और पुरातत्व विज्ञान के संग',
+    'hero_subtitle' => 'भारत हेरिटेज एटलस में प्रत्येक स्मारक, मूर्ति और अभिलेख प्रत्यक्ष पुरातात्विक उत्खनन रिपोर्टों, स्तर-सत्यापन और विद्वानों की सहमति पर आधारित है — एआई की बनाई कोई मनगढ़ंत बात नहीं।',
+    'explore_map' => 'मानचित्र देखें (Explore Map)',
+    'chronological_timeline' => 'ऐतिहासिक कालक्रम (Timeline)',
+    'evidence_engine' => 'प्रमाण इंजन (Evidence)',
+
+    // Statistics Counter
+    'stat_monuments' => 'स्मारक',
+    'stat_monuments_sub' => 'सत्यापित मूल पुरास्थल',
+    'stat_objects' => 'पुरावशेष व स्तंभ',
+    'stat_objects_sub' => 'मूर्तियां एवं ऐतिहासिक वस्तुएं',
+    'stat_epigraphs' => 'शिलालेख',
+    'stat_epigraphs_sub' => 'ब्राह्मी प्रतिकृतियां व अनुवाद',
+    'stat_sources' => 'शोध स्रोत',
+    'stat_sources_sub' => 'ASI, कनिंघम, सरकार संदर्भ',
+    'stat_claims' => 'प्रमाणित दावे',
+    'stat_claims_sub' => 'समीक्षित शैक्षणिक सहमति',
+
+    // Sections & Titles
+    'featured_dossiers' => 'प्रमुख शोध विवरणिका (Featured)',
+    'verified_sites' => 'सत्यापित पुरातात्विक विरासत स्थल',
+    'verified_sites_sub' => 'सत्यापित स्तर-विज्ञान, द्वि-युग काल-निर्धारण और शिलालेख प्रतिकृतियों सहित प्रलेखित स्मारक।',
+    'browse_all_sites' => 'सभी स्मारक देखें &rarr;',
+    'epigraphical_corpus' => 'अभिलेख व शिलालेख संग्रह',
+    'epigraphy_title' => 'मूल ब्राह्मी प्रतिकृतियां और ऐतिहासिक अभिलेख',
+    'epigraphy_sub' => 'अभिलेखशास्त्र भारतीय सभ्यता के इतिहास की आधारशिला है। हम मूल ब्राह्मी अक्षरों के साथ विद्वतापूर्ण लिप्यंतरण, पुरालिपिक काल और एपिग्राफिया इंडिका से प्रमाणित अनुवाद प्रस्तुत करते हैं।',
+    'explore_epigraphy' => 'सम्पूर्ण शिलालेख संग्रह देखें &rarr;',
+
+    // Cards & Meta
+    'ancient_period' => 'प्राचीन काल',
+    'dynasty' => 'राजवंश (Dynasty)',
+    'details' => 'विस्तार देखें (Details)',
+    'view_object' => 'पुरावशेष देखें',
+    'epigraph_dossier' => 'शिलालेख विवरणिका',
+    'dating' => 'काल निर्धारण',
+    'astronomical_range' => 'खगोलीय समय सीमा',
+    'repository' => 'संग्रहण स्थल',
+    'in_situ' => 'मूल स्थान (In Situ)',
+    'artifacts_count' => 'पुरावशेष',
+    'monument_type' => 'प्रकार',
+
+    // Filters & Search
+    'search_placeholder' => 'मंदिर, स्मारक, राजवंश, शिलालेख खोजें...',
+    'all_typologies' => 'सभी प्रकार (Typologies)',
+    'all_periods' => 'सभी ऐतिहासिक काल',
+    'all_dynasties' => 'सभी राजवंश',
+    'all_states' => 'सभी राज्य (States)',
+    'all_consensus' => 'सभी सहमति स्तर',
+    'filter' => 'फिल्टर करें',
+    'reset' => 'रीसेट',
+    'clear_filters' => 'सभी फिल्टर हटाएं',
+    'no_records_found' => 'कोई विरासत अभिलेख नहीं मिला',
+    'no_records_suggestion' => 'कृपया किसी अन्य नाम, स्थान, राजवंश या सामान्य शब्दों से खोज कर देखें।',
+
+    // Show Pages
+    'monograph_hero_title' => 'पुरातात्विक शोध विवरणिका',
+    'visual_archive' => 'दृश्यक अभिलेखागार एवं छायाचित्र (Visual Archive)',
+    'visual_archive_sub' => 'प्रमाणित ऐतिहासिक तस्वीरें, अभिलेखों की छाप (estampage) और वास्तुकला चित्र।',
+    'in_situ_stratum' => 'मूल पुरातात्विक स्तर एवं निर्देशांक (In Situ Stratum)',
+    'state' => 'वर्तमान राज्य',
+    'district' => 'जिला',
+    'geographic_settlement' => 'भौगोलिक स्थान',
+    'coordinates' => 'अक्षांश / देशांतर',
+    'spatial_accuracy' => 'स्थानिक सटीकता',
+    'elevation' => 'ऊंचाई (समुद्र तल से)',
+    'executive_summary' => 'संक्षिप्त पुरातात्विक सारांश',
+    'historical_context' => 'ऐतिहासिक एवं अभिलेखीय संदर्भ',
+    'architectural_description' => 'वास्तुकला एवं संरचनात्मक विवरण',
+    'classification' => 'अभिलेखागार वर्गीकरण',
+    'parent_monument' => 'संबद्ध स्मारक',
+    'material' => 'निर्माण सामग्री (Material)',
+    'dimensions' => 'माप / आकार',
+    'script' => 'लिपि (Script)',
+    'language' => 'भाषा (Language)',
+    'ruler' => 'उल्लिखित शासक',
+    'verbatim_script' => 'मूल प्राचीन लिपि प्रतिकृति एवं लिप्यंतरण',
+    'translation' => 'प्रमाणित शैक्षणिक अनुवाद',
+    'settled_consensus' => 'सर्वमान्य सहमति (Settled)',
+    'strong_consensus' => 'मजबूत सहमति (Strong)',
+    'scholarly_debate' => 'शैक्षणिक विमर्श (Debated)',
+    'contested' => 'विवादित (Contested)',
+    'speculative' => 'अनुमानित (Speculative)',
+    'evidence_breakdown' => 'प्रमाण ग्राफ एवं विश्लेषण देखें',
+    'primary_sources' => 'प्राथमिक संदर्भ स्रोत',
+
+    // Footer
+    'footer_about' => 'भारतीय सभ्यता के इतिहास को समर्पित एक प्रमाण-आधारित डिजिटल विरासत मंच। कठोर शैक्षणिक मानकों के साथ निर्मित, जहां पुरातात्विक स्तरों को ऐतिहासिक कल्पनाओं से अलग रखा गया है।',
+    'zero_fabrication' => 'शून्य काल्पनिकता',
+    'primary_epigraphy' => 'मूल शिलालेख',
+    'in_situ_strata' => 'मूल पुरातात्विक स्तर',
+    'exploration' => 'अन्वेषण (Exploration)',
+    'methodology' => 'पद्धति (Methodology)',
+    'open_science' => 'ओपन साइंस',
+    'copyright' => 'भारत हेरिटेज एटलस • खुली सांस्कृतिक विरासत एवं शैक्षणिक अभिलेख।',
+    'built_with' => 'लारावेल 12 व टेलविंड सीएसएस द्वारा निर्मित • द्वि-युग काल-निर्धारण प्रणाली',
+];
