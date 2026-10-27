@@ -41,6 +41,23 @@
     .leaflet-popup-tip {
         background: #ffffff;
     }
+    /* Layer Control Switcher Styling */
+    .leaflet-control-layers {
+        border-radius: 12px !important;
+        border: 1px solid #e7e5e4 !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+        font-family: inherit !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        padding: 8px 12px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(4px) !important;
+    }
+    .leaflet-control-layers-expanded {
+        padding: 10px 14px !important;
+        line-height: 1.6 !important;
+        color: #292524 !important;
+    }
 </style>
 @endsection
 
@@ -213,12 +230,39 @@
             scrollWheelZoom: true
         });
 
-        // 2. Add Base Cartographic Tiles (CartoDB Positron for antique clean aesthetic)
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 20
-        }).addTo(map);
+        // 2. Base Cartographic Tiles (100% Free Open Layers - No API Key Required)
+        const esriTopo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, USGS',
+            maxZoom: 19
+        });
+
+        const osmStandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        });
+
+        const esriImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS',
+            maxZoom: 19
+        });
+
+        const openTopo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | &copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+            subdomains: 'abc',
+            maxZoom: 17
+        });
+
+        // Set default active layer (Esri Topo: elegant, scholarly relief map with zero watermark)
+        esriTopo.addTo(map);
+
+        // Add Layer Switcher Control in top-right
+        const baseMaps = {
+            "🏛️ Historical Topography (Esri)": esriTopo,
+            "🗺️ OpenStreetMap (Standard)": osmStandard,
+            "🛰️ Satellite Imagery (Esri)": esriImagery,
+            "⛰️ Elevation Contours (OpenTopo)": openTopo
+        };
+        L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
 
         let geojsonLayer = null;
         let uncertaintyCircles = [];
