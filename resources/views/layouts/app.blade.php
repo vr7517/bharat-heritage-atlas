@@ -69,7 +69,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Brand / Logo -->
-                <div class="flex items-center text-nowrap! gap-3">
+                <div class="flex items-center  gap-3">
                     <a href="{{ route('home') }}" class="flex items-center gap-3 group focus:outline-hidden focus:ring-2 focus:ring-amber-500 rounded-xl" aria-label="{{ __('ui.brand_title') }} Home">
                         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-700 via-orange-800 to-amber-950 text-amber-100 flex items-center justify-center shadow-md shadow-orange-950/20 group-hover:scale-105 group-hover:rotate-1 transition-all duration-200 border border-amber-500/30">
                             <!-- Ashoka Chakra / Dharmachakra Motif SVG -->
