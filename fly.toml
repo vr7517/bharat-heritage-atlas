@@ -2,7 +2,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 
 app = "bharat-heritage-atlas"
-primary_region = "bom"
+primary_region = "sin"
 
 [build]
 
