@@ -69,7 +69,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Brand / Logo -->
-                <div class="flex items-center gap-3">
+                <div class="flex items-center text-nowrap! gap-3">
                     <a href="{{ route('home') }}" class="flex items-center gap-3 group focus:outline-hidden focus:ring-2 focus:ring-amber-500 rounded-xl" aria-label="{{ __('ui.brand_title') }} Home">
                         <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-700 via-orange-800 to-amber-950 text-amber-100 flex items-center justify-center shadow-md shadow-orange-950/20 group-hover:scale-105 group-hover:rotate-1 transition-all duration-200 border border-amber-500/30">
                             <!-- Ashoka Chakra / Dharmachakra Motif SVG -->
@@ -94,38 +94,38 @@
                 </div>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-1.5 text-xs font-semibold text-stone-700" aria-label="Main Navigation">
-                    <a href="{{ url('/map') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isMap ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                <nav class="hidden {{ $currentLocale === 'hi' ? '2xl:flex' : 'min-[1200px]:flex' }} items-center gap-0.5 whitespace-nowrap text-[11px] font-semibold text-stone-700" aria-label="Main Navigation">
+                    <a href="{{ url('/map') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isMap ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isMap ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                         {{ __('ui.nav_map') }}
                     </a>
 
-                    <a href="{{ url('/sites') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isSites ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/sites') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isSites ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isSites ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                         {{ __('ui.nav_sites') }}
                     </a>
 
-                    <a href="{{ url('/objects') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isObjects ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/objects') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isObjects ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isObjects ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                         {{ __('ui.nav_objects') }}
                     </a>
 
-                    <a href="{{ url('/inscriptions') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isInscriptions ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/inscriptions') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isInscriptions ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isInscriptions ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         {{ __('ui.nav_inscriptions') }}
                     </a>
 
-                    <a href="{{ url('/timeline') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isTimeline ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/timeline') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isTimeline ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isTimeline ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {{ __('ui.nav_timeline') }}
                     </a>
 
-                    <a href="{{ url('/datasets') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isDatasets ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/datasets') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isDatasets ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isDatasets ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3zm0 4h16M9 4v16"/></svg>
                         {{ __('ui.nav_datasets') }}
                     </a>
 
-                    <a href="{{ url('/verification') }}" class="px-2.5 py-2 rounded-lg transition flex items-center gap-1.5 {{ $isVerification ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
+                    <a href="{{ url('/verification') }}" class="shrink-0 px-1.5 py-2 rounded-lg transition flex items-center gap-1 {{ $isVerification ? 'bg-amber-100/90 text-orange-950 border border-amber-300/80 font-bold shadow-2xs' : 'hover:text-orange-900 hover:bg-stone-100/80' }}">
                         <svg class="w-4 h-4 {{ $isVerification ? 'text-orange-800' : 'text-stone-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                         {{ __('ui.nav_evidence') }}
                     </a>
@@ -154,7 +154,7 @@
                        class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 shadow-2xs transition {{ $isSearch ? 'border-orange-600 text-orange-900' : '' }}"
                        aria-label="{{ __('ui.nav_search') }}">
                         <svg class="w-3.5 h-3.5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                        <span>{{ __('ui.nav_search') }}</span>
+                        {{-- <span>{{ __('ui.nav_search') }}</span> --}}
                     </a>
 
                     <!-- API Shortcut -->
@@ -165,7 +165,7 @@
                 </div>
 
                 <!-- Mobile Menu Button (Accessible >=44px) -->
-                <div class="flex items-center gap-2 lg:hidden">
+                <div class="flex items-center gap-2 {{ $currentLocale === 'hi' ? '2xl:hidden' : 'min-[1200px]:hidden' }}">
                     <!-- Mobile Language Switcher -->
                     <div class="flex items-center bg-stone-200/80 p-0.5 rounded-lg border border-stone-300 text-xs font-bold sm:hidden">
                         <a href="{{ route('locale.switch', 'en') }}" class="px-2 py-1 rounded {{ $currentLocale === 'en' ? 'bg-white text-orange-950 font-bold' : 'text-stone-600' }}">EN</a>
@@ -186,7 +186,7 @@
         </div>
 
         <!-- Mobile Navigation Menu Dropdown (Accessible Drawer) -->
-        <div id="mobile-menu" class="hidden lg:hidden border-t border-stone-200 bg-stone-50/95 backdrop-blur-md px-4 pt-4 pb-6 space-y-2 shadow-lg transition-all duration-200">
+        <div id="mobile-menu" class="hidden {{ $currentLocale === 'hi' ? '2xl:hidden' : 'min-[1200px]:hidden' }} border-t border-stone-200 bg-stone-50/95 backdrop-blur-md px-4 pt-4 pb-6 space-y-2 shadow-lg transition-all duration-200">
             <!-- Search Shortcut -->
             <div class="pb-2">
                 <a href="{{ route('search.index') }}" class="flex items-center justify-between min-h-[44px] px-3.5 py-2.5 rounded-xl bg-white border border-stone-300 text-xs font-semibold text-stone-700 shadow-2xs">
