@@ -9,6 +9,8 @@ primary_region = "sin"
 [env]
   APP_ENV = "production"
   APP_DEBUG = "false"
+  APP_URL = "https://bharat-heritage-atlas.fly.dev"
+  ASSET_URL = "https://bharat-heritage-atlas.fly.dev"
   LOG_CHANNEL = "stderr"
   LOG_LEVEL = "info"
   DB_CONNECTION = "sqlite"
