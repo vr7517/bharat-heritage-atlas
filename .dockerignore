@@ -6,10 +6,14 @@
 .phpunit.result.cache
 tests
 node_modules
+vendor
+public/storage
+public/hot
 npm-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 storage/*.key
+storage/app/public/*
 storage/framework/cache/*
 !storage/framework/cache/.gitignore
 storage/framework/sessions/*
