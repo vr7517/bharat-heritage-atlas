@@ -81,6 +81,10 @@ COPY --from=frontend /app/public/build /var/www/html/public/build
 # Copy vendor dependencies from Stage 2
 COPY --from=vendor /app/vendor /var/www/html/vendor
 
+# Remove any stale bootstrap caches and discover production packages
+RUN rm -f /var/www/html/bootstrap/cache/*.php \
+    && php /var/www/html/artisan package:discover --ansi
+
 # Copy Fly & Server Configuration Files
 COPY .fly/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY .fly/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

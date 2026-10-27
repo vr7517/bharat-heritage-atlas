@@ -8,6 +8,10 @@ STORAGE_DIR="/var/www/html/storage"
 DB_DIR="${STORAGE_DIR}/database"
 DB_FILE="${DB_DIR}/database.sqlite"
 
+# Clean any stale bootstrap caches
+rm -f /var/www/html/bootstrap/cache/*.php
+php /var/www/html/artisan package:discover --ansi || true
+
 mkdir -p "${STORAGE_DIR}/app/public"
 mkdir -p "${STORAGE_DIR}/framework/cache/data"
 mkdir -p "${STORAGE_DIR}/framework/sessions"

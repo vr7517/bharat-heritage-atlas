@@ -7,6 +7,7 @@
 tests
 node_modules
 vendor
+bootstrap/cache/*.php
 public/storage
 public/hot
 npm-debug.log*
