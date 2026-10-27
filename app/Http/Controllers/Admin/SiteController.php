@@ -12,6 +12,7 @@ use App\Models\Source;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SiteController extends Controller
@@ -95,6 +96,20 @@ class SiteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The cover image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The cover image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The cover image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The cover image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:heritage_sites,slug'],
@@ -122,10 +137,15 @@ class SiteController extends Controller
             'altitude_meters' => ['nullable', 'integer'],
 
             // Media upload
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The cover image must be a valid image.',
+            'cover_image.mimes' => 'The cover image format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The cover image size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The cover image failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         // Auto-generate slug if left empty
@@ -176,6 +196,7 @@ class SiteController extends Controller
 
         // Handle Cover Photo upload
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/sites');
             $coverPath = $request->file('cover_image')->store('media/sites', 'public');
             $site->media()->create([
                 'file_path' => $coverPath,
@@ -216,6 +237,20 @@ class SiteController extends Controller
     {
         $site = HeritageSite::findOrFail($id);
 
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The cover image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The cover image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The cover image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The cover image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:heritage_sites,slug,' . $id],
@@ -242,10 +277,15 @@ class SiteController extends Controller
             'altitude_meters' => ['nullable', 'integer'],
 
             // Media upload
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The cover image must be a valid image.',
+            'cover_image.mimes' => 'The cover image format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The cover image size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The cover image failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         // If site already has a location and location attributes are edited, update it
@@ -281,6 +321,7 @@ class SiteController extends Controller
 
         // Handle Cover Photo replacement
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/sites');
             $coverPath = $request->file('cover_image')->store('media/sites', 'public');
             $site->media()->update(['is_cover' => false]);
             $site->media()->create([

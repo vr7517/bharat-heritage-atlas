@@ -92,6 +92,20 @@ class DatasetController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->hasFile('dataset_file') && ! $request->file('dataset_file')->isValid()) {
+            $errorCode = $request->file('dataset_file')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The dataset file exceeds the server upload limit. Please upload files under 50MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The dataset file exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The dataset file was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded file to disk. Check disk space or permissions.',
+                default => 'The dataset file failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['dataset_file' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:datasets,slug'],
@@ -107,6 +121,9 @@ class DatasetController extends Controller
             'is_published' => ['boolean'],
             'is_featured' => ['boolean'],
             'dataset_file' => ['nullable', 'file', 'max:51200'],
+        ], [
+            'dataset_file.max' => 'The dataset file size may not exceed 50MB.',
+            'dataset_file.uploaded' => 'The dataset file failed to upload. Please ensure the file is under 50MB.',
         ]);
 
         $slug = ! empty($validated['slug'])
@@ -126,6 +143,7 @@ class DatasetController extends Controller
         $fileMime = null;
 
         if ($request->hasFile('dataset_file')) {
+            Storage::disk('public')->makeDirectory('datasets');
             $file = $request->file('dataset_file');
             $fileName = $file->getClientOriginalName();
             $fileSize = $file->getSize();
@@ -176,6 +194,20 @@ class DatasetController extends Controller
     {
         $dataset = Dataset::findOrFail($id);
 
+        if ($request->hasFile('dataset_file') && ! $request->file('dataset_file')->isValid()) {
+            $errorCode = $request->file('dataset_file')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The dataset file exceeds the server upload limit. Please upload files under 50MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The dataset file exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The dataset file was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded file to disk. Check disk space or permissions.',
+                default => 'The dataset file failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['dataset_file' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:datasets,slug,' . $id],
@@ -191,6 +223,9 @@ class DatasetController extends Controller
             'is_published' => ['boolean'],
             'is_featured' => ['boolean'],
             'dataset_file' => ['nullable', 'file', 'max:51200'],
+        ], [
+            'dataset_file.max' => 'The dataset file size may not exceed 50MB.',
+            'dataset_file.uploaded' => 'The dataset file failed to upload. Please ensure the file is under 50MB.',
         ]);
 
         $filePath = $dataset->file_path;
@@ -204,6 +239,7 @@ class DatasetController extends Controller
                 Storage::disk('public')->delete($dataset->file_path);
             }
 
+            Storage::disk('public')->makeDirectory('datasets');
             $file = $request->file('dataset_file');
             $fileName = $file->getClientOriginalName();
             $fileSize = $file->getSize();

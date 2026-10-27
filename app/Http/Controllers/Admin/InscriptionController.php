@@ -11,6 +11,7 @@ use App\Models\Source;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class InscriptionController extends Controller
@@ -111,6 +112,20 @@ class InscriptionController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The inscription rubbing image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The rubbing image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:inscriptions,slug'],
@@ -130,10 +145,15 @@ class InscriptionController extends Controller
             'is_published' => ['boolean'],
 
             // Rubbing / Photograph Upload
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The rubbing file must be a valid image.',
+            'cover_image.mimes' => 'The rubbing image format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The rubbing image size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The rubbing image failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         $slug = ! empty($validated['slug'])
@@ -167,6 +187,7 @@ class InscriptionController extends Controller
         ]);
 
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/inscriptions');
             $coverPath = $request->file('cover_image')->store('media/inscriptions', 'public');
             $inscription->media()->create([
                 'file_path' => $coverPath,
@@ -181,7 +202,7 @@ class InscriptionController extends Controller
         }
 
         return redirect()->route('admin.inscriptions.index')
-            ->with('success', "Inscription '{$inscription->title}' registered successfully.");
+            ->with('success', "Inscription '{$inscription->title}' cataloged successfully.");
     }
 
     /**
@@ -189,13 +210,7 @@ class InscriptionController extends Controller
      */
     public function edit(int $id): View
     {
-        $inscription = Inscription::with([
-            'heritageSite',
-            'object',
-            'media',
-            'claims.evidence.sources',
-        ])->findOrFail($id);
-
+        $inscription = Inscription::with(['heritageSite', 'object', 'media', 'claims.evidence.sources'])->findOrFail($id);
         $sites = HeritageSite::orderBy('name')->get(['id', 'name']);
         $objects = HeritageObject::orderBy('name')->get(['id', 'name']);
         $languages = $this->languages;
@@ -212,6 +227,20 @@ class InscriptionController extends Controller
     public function update(Request $request, int $id): RedirectResponse
     {
         $inscription = Inscription::findOrFail($id);
+
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The inscription rubbing image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The rubbing image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -232,10 +261,15 @@ class InscriptionController extends Controller
             'is_published' => ['boolean'],
 
             // Rubbing / Photograph Replacement
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The rubbing file must be a valid image.',
+            'cover_image.mimes' => 'The rubbing image format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The rubbing image size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The rubbing image failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         $inscription->update([
@@ -258,6 +292,7 @@ class InscriptionController extends Controller
         ]);
 
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/inscriptions');
             $coverPath = $request->file('cover_image')->store('media/inscriptions', 'public');
             $inscription->media()->update(['is_cover' => false]);
             $inscription->media()->create([

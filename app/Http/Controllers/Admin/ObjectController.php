@@ -13,6 +13,7 @@ use App\Models\Source;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ObjectController extends Controller
@@ -112,6 +113,20 @@ class ObjectController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The artifact cover image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The cover image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', 'unique:objects,slug'],
@@ -133,10 +148,15 @@ class ObjectController extends Controller
             'is_published' => ['boolean'],
 
             // Media Cover Upload
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The cover photo must be a valid image.',
+            'cover_image.mimes' => 'The cover photo format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The cover photo size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The cover photo failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         $slug = ! empty($validated['slug'])
@@ -172,6 +192,7 @@ class ObjectController extends Controller
         ]);
 
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/objects');
             $coverPath = $request->file('cover_image')->store('media/objects', 'public');
             $object->media()->create([
                 'file_path' => $coverPath,
@@ -222,6 +243,20 @@ class ObjectController extends Controller
     {
         $object = HeritageObject::findOrFail($id);
 
+        if ($request->hasFile('cover_image') && ! $request->file('cover_image')->isValid()) {
+            $errorCode = $request->file('cover_image')->getError();
+            $errorMessage = match ($errorCode) {
+                UPLOAD_ERR_INI_SIZE => 'The artifact cover image exceeds the server upload limit. Please compress the image below 20MB.',
+                UPLOAD_ERR_FORM_SIZE => 'The image exceeds the form upload limit.',
+                UPLOAD_ERR_PARTIAL => 'The image was only partially uploaded. Please try uploading again.',
+                UPLOAD_ERR_NO_TMP_DIR => 'Server error: Temporary directory missing on server.',
+                UPLOAD_ERR_CANT_WRITE => 'Server error: Failed to write uploaded image to disk. Check disk space or permissions.',
+                default => 'The cover image failed to upload (PHP upload error code: ' . $errorCode . ').',
+            };
+
+            return back()->withInput()->withErrors(['cover_image' => $errorMessage]);
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', 'unique:objects,slug,' . $id],
@@ -243,10 +278,15 @@ class ObjectController extends Controller
             'is_published' => ['boolean'],
 
             // Media Cover Replacement
-            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:10240'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:20480'],
             'cover_caption' => ['nullable', 'string', 'max:500'],
             'cover_credit' => ['nullable', 'string', 'max:255'],
             'cover_license' => ['nullable', 'string', 'max:100'],
+        ], [
+            'cover_image.image' => 'The cover photo must be a valid image.',
+            'cover_image.mimes' => 'The cover photo format must be JPEG, PNG, JPG, or WebP.',
+            'cover_image.max' => 'The cover photo size may not exceed 20MB.',
+            'cover_image.uploaded' => 'The cover photo failed to upload. Please ensure the file is an uncorrupted image under 20MB.',
         ]);
 
         $object->update([
@@ -271,6 +311,7 @@ class ObjectController extends Controller
         ]);
 
         if ($request->hasFile('cover_image')) {
+            Storage::disk('public')->makeDirectory('media/objects');
             $coverPath = $request->file('cover_image')->store('media/objects', 'public');
             $object->media()->update(['is_cover' => false]);
             $object->media()->create([
